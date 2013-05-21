@@ -6,7 +6,7 @@ Paracord dot files framework. Simply fork paracord drop your dot files into the
 ## DIRECTORIES
 
  * bin/
- * CORE/
+ * core/
  * skel/
  * skel.cp/
 
