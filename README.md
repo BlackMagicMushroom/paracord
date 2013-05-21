@@ -42,5 +42,4 @@ The paracord command currently has two available subcommands:
 
  * git remote url -- ?
  * $HOME/bin dir -- gotta treat it special
- * an installdate file - YES -- used to prevent from accidentally re-installing -- done?
- * git ignore to ignore installdate file - YES -- done?
+ * Add default template files
