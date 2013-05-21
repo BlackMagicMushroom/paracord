@@ -1,0 +1,205 @@
+#!/bin/bash
+ECHO=`which echo`
+PARACORDSKELDIR=$PARACORDDIR/skel
+PARACORDSKELCPDIR=$PARACORDDIR/skel.cp
+
+function pc_help() {
+  $ECHO ""
+  $ECHO " Available commands: "
+  $ECHO "   install      Performs an install of dot files and environment configuration"
+  $ECHO "   update       Performs an update of dot files and environment configuration"
+  $ECHO ""
+}
+
+# OS Detection
+function pc_osdetection {
+  OS=$(awk '/DISTRIB_ID=/' /etc/*-release | sed 's/DISTRIB_ID=//' | tr '[:upper:]' '[:lower:]')
+  ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
+  VERSION=$(awk '/DISTRIB_RELEASE=/' /etc/*-release | sed 's/DISTRIB_RELEASE=//' | sed 's/[.]0/./')
+  
+  if [ -z "$OS" ]; then
+    OS=$(awk '{print $1}' /etc/*-release | tr '[:upper:]' '[:lower:]')
+  fi
+  
+  if [ -z "$VERSION" ]; then
+    VERSION=$(awk '{print $3}' /etc/*-release)
+  fi
+}
+
+# pathadd: Lazy man's way to add to your path
+# Timestamp: <2011-09-19 13:55:53 EDT>
+# pathadd takes a directory path and adds it to your path
+# also available in the default $PARACORDDIR/skel/DOT.bash_functions
+# included here in case you do not use the above mentioned file.
+function pathadd() 
+{
+    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+            export PATH="$PATH:$1"
+    fi
+}
+
+# accepts 1 argument location of skel dir
+# $PARACORDSKELDIR or $PARACORDSKELCPDIR
+#
+function pc_updateSkelFiles() {
+    # skel files
+    $TMPSKELDIR = $1
+    cd $TMPSKELDIR
+
+    for f in $(ls DOT.*)
+    do
+      NEWFILENAME=`echo $f | sed 's/DOT//'`
+      if [ ! -e $HOME/$NEWFILENAME ]; then
+         $ECHO -e "${GREEN}Adding ${LIGHT_GREEN}${NEWFILENAME}${NC}."
+         ln -s $TMPSKELDIR/$f $HOME/$NEWFILENAME
+      fi
+    done
+
+    for f in $(ls --hide=DOT.*)
+    do
+      if [ ! -e $HOME/$f ]; then
+         $ECHO -e "${GREEN}Adding ${LIGHT_GREEN}${f}${NC}."
+         ln -s $TMPSKELDIR/$f $HOME/$f
+      fi
+    done
+
+}
+
+# accepts 1 argument location of skel dir
+# $PARACORDSKELDIR or $PARACORDSKELCPDIR
+#
+function pc_installSkelFiles() {
+    # skel files
+    $TMPSKELDIR = $1
+    cd $TMPSKELDIR
+    for f in $(ls DOT.*)
+    do
+      NEWFILENAME=`echo $f | sed 's/DOT//'`
+      if [ -e $HOME/$NEWFILENAME ]; then
+         mv $HOME/$NEWFILENAME $HOME/$NEWFILENAME.bak
+      fi
+      ln -s $TMPSKELDIR/$f $HOME/$NEWFILENAME
+    done
+
+    for f in $(ls --hide=DOT.*)
+    do
+      if [ -e $HOME/$f ]; then
+         mv $HOME/$f $HOME/${f}.bak
+      fi
+      ln -s $TMPSKELDIR/$f $HOME/$f
+    done
+}
+
+# git components
+function pc_symlinkGitFiles() {
+    cd $DOTGITDIR
+    for f in $(ls DOT.*)
+    do
+      NEWFILENAME=`echo $f | sed 's/DOT//'`
+      echo $NEWFILENAME
+      if [ -e $HOME/$NEWFILENAME ]; then
+          mv $HOME/$NEWFILENAME $HOME/$NEWFILENAME.bak
+      fi
+      cp $DOTGITDIR/$f $HOME/$NEWFILENAME
+    done
+}
+
+function pc_setupHomeBinDir() { # // get it home bender XD
+    # bin dir
+    cd $HOME
+    if [ -d $HOME/bin ]; then
+       $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Copy and update your bin/ files as needed.${NC}"
+    else
+       ln -s $PARACORDDIR/bin $HOME/bin
+    fi
+
+}
+
+# .vim dir
+function pc_setupVimDir() {
+    if [ -d $HOME/.vim ]; then
+       $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}You will need to update your .vim folder manually.${NC}"
+    else
+       ln -s $PARACORDDIR/vim $HOME/.vim
+    fi
+}
+
+# UPDATE
+function pc_performInstall() {
+    . ~/.colors
+    . $PARACORDCORE/paracord_signature
+    
+    PERFORM='install'
+    if [ $# -gt 0 ] && [ $1 = "update" ]; then
+     #   GIT=`which git`
+        $ECHO -e "${BLUE}[Paracord]${NC} Updating dot files repo."
+     #   $GIT pull -q
+    PERFORM='update'
+    fi
+    if [ $PERFORM = 'install' ] && [ -f $PARACORDCORE/.installed ]; then
+        $ECHO -e "${BLUE}[Paracord]${NC} You've already installed paracord ";
+        exit 1;
+    fi
+
+
+    $ECHO -e "${BLUE}[Paracord]${NC} Adding new skel files."
+    # pc_${PERFORM}SkelFiles $PARACORDSKELDIR
+    # pc_${PERFORM}SkelFiles $PARACORDSKELCPDIR
+    
+    ############
+    #
+    # leaving out for now
+    # git files are moving to skel
+    #
+    ############
+    #$ECHO -e "${BLUE}[Paracord]${NC} Adding new git files."
+    # git components
+    #pc_symlinkGitFiles 
+        
+    if [ $PERFORM = "install" ]; then
+        $ECHO -e "${BLUE}[Paracord]${NC} ${PURPLE}Checking for bin folder.${NC}"
+        #pc_setupHomeBinDir $PERFORM
+
+        $ECHO -e "${BLUE}[Paracord]${NC} ${PURPLE}Checking for .vim folder.${NC}"
+        #pc_setupVimDir $PERFORM
+    else 
+        pc_addParacordToPath
+    fi
+
+    # move back to PARACORDDIR
+    cd $PARACORDDIR
+
+    touch $PARACORDCORE/.installed
+    date +"%Y/%m/%d %H:%I %Z" > $PARACORDCORE/.installed
+    
+}
+
+function pc_addParacordToPath() {
+    $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Add paracord to your path?${NC} (y/n):"
+    read REPLY
+    if [ $REPLY = "y" ]; then
+        pathadd $PARACORDBINDIR
+        if [ -f $HOME/.bash_env ]; then
+            $ECHO -e "# Added by Paracord " >> $HOME/.bash_env
+            $ECHO -e "PATH=\$PATH:${PARACORDBINDIR}" >> $HOME/.bash_env
+        fi
+    fi
+}
+
+# update gitconfig
+function pc_updateGitConfig() {
+    if [ -f $HOME/.gitconfig ]; then
+        $ECHO -e "${BLUE}[dotDotFiles]${NC} ${RED_BOLD}Configure gitconfig?${NC} (y/n):"
+        read REPLY
+        if [ $REPLY = "y" ]; then
+            echo "Gimme your email address:"
+            read PC_EMAIL
+            sed -i "s/user\@domain\.com/$PC_EMAIL/" $HOME/.gitconfig
+            echo ""
+            echo "Gimme your name:"
+            read PC_REALNAME
+            sed -i "s/UserName/$PC_REALNAME/" $HOME/.gitconfig
+            $ECHO -e "${GREEN_BOLD}[Success] .gitconfig hath been updated.${NC}"
+        fi
+    fi
+}

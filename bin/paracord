@@ -1,0 +1,38 @@
+#!/bin/bash
+
+cd `dirname $0`
+PARACORDBINDIR=`pwd`
+cd ../
+PARACORDDIR=`pwd`
+PARACORDCORE=`pwd`"/core"
+ECHO=`which echo`
+
+
+source $PARACORDCORE/pc_functions
+source $PARACORDCORE/.colors
+
+if [ $# -lt 1 ]; then
+  $ECHO -e "You didn't specify a command"
+  pc_help
+  exit 1
+elif [ $# -gt 1 ]; then
+  $ECHO -e "Easy ${RED}killer${NC}. Too many commands"
+  pc_help
+  exit 1
+fi
+
+case $1 in
+  "install")
+    pc_performInstall
+    ;;
+  "update")
+    pc_performInstall update
+    ;;
+  *)
+    $ECHO -e "${RED}ERROR:${NC}"
+    pc_help
+    exit 1
+    ;;
+esac
+
+exit 0
