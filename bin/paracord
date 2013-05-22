@@ -23,6 +23,9 @@ fi
 
 
 case $1 in
+  "configure")
+    pc_configurePC
+    ;;
   "help")
     pc_help
     ;;

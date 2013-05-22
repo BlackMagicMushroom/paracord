@@ -40,10 +40,17 @@ copied from $PARACORDDIR/skel.cp/DOT.{filename} to $HOME/.{filename}
 
 The paracord command currently has two available subcommands:
  
- * install - installs your instance of paracord
- * update  - updates from your repo then executes appropritate commands
+ * configure    - Updates your web\_install.sh file in your repo
+ * help         - Displays help dialog
+ * install      - Installs your instance of Paracord
+ * update       - Updates from your repo then executes appropritate commands
+ * update-path  - Updates your .bash\_env file to include the paracord command to your path
+ * variables    - Displays Paracord variables
+
+## WEB INSTALL
 
 ## TODO
 
- * git remote url -- ?
+ * Review messages
  * uncomment out actions
+ * final test

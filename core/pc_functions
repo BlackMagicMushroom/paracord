@@ -17,13 +17,26 @@ function pc_displayDirs() {
     echo ${!1}
 }
 
+function pc_configurePC() {
+    $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Configure web-install script?${NC} (y/n):"
+    read CONFIG_REPLY
+    if [ `echo $CONFIG_REPLY | tr [:upper:] [:lower:]` = "y" ]; then
+        echo "Enter your github username:"
+        read GITHUB_USER
+        sed -i "s/BlackMagicMushroom/$GITHUB_USER/" $PARACORDDIR/web_install.sh
+        echo ""
+        $ECHO -e "${BLUE}[Paracord] ${GREEN_BOLD}{Success}${NC} web_install has been updated. You will need to commit and update your repo."
+    fi
+}
+
 function pc_help() {
   $ECHO ""
   $ECHO " Available commands: "
+  $ECHO "   configure       Configure Paracord repo"
   $ECHO "   help            Display this dialog"
   $ECHO "   install         Performs an install of dot files and environment configuration"
-  $ECHO "   update          Performs an update of dot files and environment configuration"
-  $ECHO "   update-path     Adds ${PARACORDBINDIR} to your path and your .bash_env file"
+  $ECHO "   update          Performs an  update of dot files and environment configuration"
+  $ECHO "   update-path     Adds ${PARACORDBINDIR} to your path in your .bash_env file"
   $ECHO "   variables       Displays Paracord specific variables"
   $ECHO ""
 }
@@ -181,7 +194,7 @@ function pc_performInstall() {
 function pc_addParacordToPath() {
     $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Add paracord to your path?${NC} (y/n):"
     read PC_REPLY
-    if [ $PC_REPLY = "y" ]; then
+    if [ `echo $PC_REPLY | tr [:upper:] [:lower:]` = "y" ]; then
         if [ -f $HOME/.bash_env ]; then
             $ECHO -e "" >> $HOME/.bash_env
             $ECHO -e "# Added by Paracord " >> $HOME/.bash_env
@@ -193,9 +206,9 @@ function pc_addParacordToPath() {
 # update gitconfig
 function pc_updateGitConfig() {
     if [ -f $HOME/.gitconfig ]; then
-        $ECHO -e "${BLUE}[dotDotFiles]${NC} ${RED_BOLD}Configure gitconfig?${NC} (y/n):"
+        $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Configure gitconfig?${NC} (y/n):"
         read REPLY
-        if [ $REPLY = "y" ]; then
+        if [ `echo $REPLY | tr [:upper:] [:lower:]` = "y" ]; then
             echo "Gimme your email address:"
             read PC_EMAIL
             sed -i "s/user\@domain\.com/$PC_EMAIL/" $HOME/.gitconfig
