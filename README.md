@@ -44,6 +44,13 @@ The paracord command currently has two available subcommands:
  * update-path  - Updates your .local\_env file to include the paracord command to your path
  * variables    - Displays Paracord variables
 
+## .FILES STRUCTURE
+
+The way these .files (dot files) are structured follow the simple idea of generic environment elements
+that can exist across multiple systems all exist in the appropriate .bash\_{X} files (e.g. .bash\_env, 
+.bash\_aliases, et cetra). System specific .files should live in .local\_{X} files (e.g. .local\_env,
+.local\_aliases, et cetra). 
+
 ## WEB INSTALL
 
 From the commandline execute the following commands (assumes you have git and curl installed).
