@@ -16,10 +16,11 @@ if [ $# -lt 1 ]; then
   $ECHO -e "You didn't specify a command"
   pc_help
   exit 1
-elif [ $# -gt 1 ] && [ $1 != 'variables' ]; then
-  $ECHO -e "Easy ${RED}killer${NC}. Too many commands"
-  pc_help
-  exit 1
+# need to fix this logic cause it sucks
+#elif [ $# -gt 1 ] && [[ $1 != 'variables' || $1 != 'install' ]]; then
+#  $ECHO -e "Easy ${RED}killer${NC}. Too many commands"
+#  pc_help
+#  exit 1
 fi
 
 
