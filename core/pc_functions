@@ -3,11 +3,28 @@ ECHO=`which echo`
 PARACORDSKELDIR=$PARACORDDIR/skel
 PARACORDSKELCPDIR=$PARACORDDIR/skel.cp
 
+function pc_displayDirs() {
+
+    echo ""
+    if [ $# -lt 1 ]; then
+        $ECHO -e "PARACORDDIR:         ${PARACORDDIR}"
+        $ECHO -e "PARACORDBINDIR:      ${PARACORDBINDIR}"
+        $ECHO -e "PARACORDCORE:        ${PARACORDCORE}"
+        $ECHO -e "PARACORDSKELDIR:     ${PARACORDSKELDIR}"
+        $ECHO -e "PARACORDSKELCPDIR:   ${PARACORDSKELCPDIR}"
+    fi
+
+    echo ${!1}
+}
+
 function pc_help() {
   $ECHO ""
   $ECHO " Available commands: "
-  $ECHO "   install      Performs an install of dot files and environment configuration"
-  $ECHO "   update       Performs an update of dot files and environment configuration"
+  $ECHO "   help            Display this dialog"
+  $ECHO "   install         Performs an install of dot files and environment configuration"
+  $ECHO "   update          Performs an update of dot files and environment configuration"
+  $ECHO "   update-path     Adds ${PARACORDBINDIR} to your path and your .bash_env file"
+  $ECHO "   variables       Displays Paracord specific variables"
   $ECHO ""
 }
 
@@ -26,17 +43,7 @@ function pc_osdetection {
   fi
 }
 
-# pathadd: Lazy man's way to add to your path
-# Timestamp: <2011-09-19 13:55:53 EDT>
-# pathadd takes a directory path and adds it to your path
-# also available in the default $PARACORDDIR/skel/DOT.bash_functions
-# included here in case you do not use the above mentioned file.
-function pathadd() 
-{
-    if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
-            export PATH="$PATH:$1"
-    fi
-}
+
 
 # accepts 1 argument location of skel dir
 # $PARACORDSKELDIR or $PARACORDSKELCPDIR
@@ -108,9 +115,9 @@ function pc_setupHomeBinDir() { # // get it home bender XD
     # bin dir
     cd $HOME
     if [ -d $HOME/bin ]; then
-       $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Copy and update your bin/ files as needed.${NC}"
+       $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Update your bin/ files as needed.${NC}"
     else
-       ln -s $PARACORDDIR/bin $HOME/bin
+       ln -s $PARACORDDIR/_bin $HOME/bin
     fi
 
 }
@@ -152,19 +159,16 @@ function pc_performInstall() {
     # git files are moving to skel
     #
     ############
-    #$ECHO -e "${BLUE}[Paracord]${NC} Adding new git files."
-    # git components
-    #pc_symlinkGitFiles 
+    # #$ECHO -e "${BLUE}[Paracord]${NC} Adding new git files."
+    # # git components
+    # #pc_symlinkGitFiles 
         
-    if [ $PERFORM = "install" ]; then
-        $ECHO -e "${BLUE}[Paracord]${NC} ${PURPLE}Checking for bin folder.${NC}"
-        #pc_setupHomeBinDir $PERFORM
+    $ECHO -e "${BLUE}[Paracord]${NC} ${PURPLE}Checking for bin folder.${NC}"
+    #pc_setupHomeBinDir
 
-        $ECHO -e "${BLUE}[Paracord]${NC} ${PURPLE}Checking for .vim folder.${NC}"
-        #pc_setupVimDir $PERFORM
-    else 
-        pc_addParacordToPath
-    fi
+    $ECHO -e "${BLUE}[Paracord]${NC} ${PURPLE}Checking for .vim folder.${NC}"
+    #pc_setupVimDir
+    pc_addParacordToPath
 
     # move back to PARACORDDIR
     cd $PARACORDDIR
@@ -176,10 +180,10 @@ function pc_performInstall() {
 
 function pc_addParacordToPath() {
     $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Add paracord to your path?${NC} (y/n):"
-    read REPLY
-    if [ $REPLY = "y" ]; then
-        pathadd $PARACORDBINDIR
+    read PC_REPLY
+    if [ $PC_REPLY = "y" ]; then
         if [ -f $HOME/.bash_env ]; then
+            $ECHO -e "" >> $HOME/.bash_env
             $ECHO -e "# Added by Paracord " >> $HOME/.bash_env
             $ECHO -e "PATH=\$PATH:${PARACORDBINDIR}" >> $HOME/.bash_env
         fi

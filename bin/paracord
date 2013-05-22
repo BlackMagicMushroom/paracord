@@ -15,18 +15,32 @@ if [ $# -lt 1 ]; then
   $ECHO -e "You didn't specify a command"
   pc_help
   exit 1
-elif [ $# -gt 1 ]; then
+elif [ $# -gt 1 ] && [ $1 != 'variables' ]; then
   $ECHO -e "Easy ${RED}killer${NC}. Too many commands"
   pc_help
   exit 1
 fi
 
+
 case $1 in
+  "help")
+    pc_help
+    ;;
   "install")
     pc_performInstall
     ;;
   "update")
     pc_performInstall update
+    ;;
+  "update-path")
+    pc_addParacordToPath
+    ;;
+  "variables")
+    if [ $# -lt 1 ]; then
+        pc_displayDirs
+    else
+        pc_displayDirs ${2}
+    fi
     ;;
   *)
     $ECHO -e "${RED}ERROR:${NC}"
@@ -34,5 +48,4 @@ case $1 in
     exit 1
     ;;
 esac
-
 exit 0

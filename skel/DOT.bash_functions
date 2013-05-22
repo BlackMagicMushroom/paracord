@@ -1,4 +1,4 @@
-# Included compliments of Micah Breedlove ( @druid628 )
+# Included in Paracord compliments of Micah Breedlove ( @druid628 )
 #
 # -*- shell-script -*-
 # mkcd: a script which declares a function, mkcd.
