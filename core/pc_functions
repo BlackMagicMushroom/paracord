@@ -202,17 +202,17 @@ function pc_performInstall() {
 }
 
 function pc_addParacordToPath() {
-    if [ -z "`type -t paracord`" ]; then 
+    #if [ -z "`type -t paracord`" ]; then 
       pc_echo "${RED_BOLD}Add paracord to your path?${NC} (y/n):"
       read PC_REPLY
-      if [ `echo $PC_REPLY | tr [:upper:] [:lower:]` = "y" ]; then
+      if [ "`echo $PC_REPLY | tr [:upper:] [:lower:]`" = "y" ]; then
           if [ -f $HOME/.bash_env ]; then
               $ECHO -e "" >> $HOME/.bash_env
               $ECHO -e "# Added by Paracord " >> $HOME/.bash_env
               $ECHO -e "PATH=\$PATH:${PARACORDBINDIR}" >> $HOME/.bash_env
           fi
       fi
-    fi
+    #fi
 }
 
 # update gitconfig
