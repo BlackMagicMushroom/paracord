@@ -160,9 +160,9 @@ function pc_performInstall() {
     
     PERFORM='install'
     if [ $# -gt 0 ] && [ $1 = "update" ]; then
-     #   GIT=`which git`
+        GIT=`which git`
         pc_echo "Updating Paracord."
-     #   $GIT pull -q
+        $GIT pull -q
     PERFORM='update'
     fi
     if [ $PERFORM = 'install' ] && [ -f $PARACORDCORE/.installed ]; then
@@ -172,8 +172,8 @@ function pc_performInstall() {
 
 
     pc_echo "Adding new skel files."
-    # pc_${PERFORM}SkelFiles $PARACORDSKELDIR
-    # pc_${PERFORM}SkelFiles $PARACORDSKELCPDIR
+    pc_${PERFORM}SkelFiles $PARACORDSKELDIR
+    pc_${PERFORM}SkelFiles $PARACORDSKELCPDIR
     
     ############
     #
@@ -186,8 +186,13 @@ function pc_performInstall() {
     # #pc_symlinkGitFiles 
         
     pc_echo "Checking for ${PURPLE_BOLD}bin${NC} folder."
-    #pc_setupHomeBinDir
+    pc_setupHomeBinDir
 
+    ############
+    #
+    # leaving out for now
+    #
+    ############
     #pc_echo "Checking for ${PURPLE_BOLD}.vim${NC} folder."
     #pc_setupVimDir
 

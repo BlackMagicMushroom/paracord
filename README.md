@@ -51,6 +51,4 @@ The paracord command currently has two available subcommands:
 
 ## TODO
 
- * Review messages
- * uncomment out actions
  * final test
