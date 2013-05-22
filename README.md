@@ -37,12 +37,13 @@ copied from $PARACORDDIR/skel.cp/DOT.{filename} to $HOME/.{filename}
 
 The paracord command currently has two available subcommands:
  
- * configure    - Updates your web\_install.sh file in your repo
- * help         - Displays help dialog
- * install      - Installs your instance of Paracord
- * update       - Updates from your repo then executes appropritate commands
- * update-path  - Updates your .local\_env file to include the paracord command to your path
- * variables    - Displays Paracord variables
+ * configure      - Updates your web\_install.sh file in your repo
+ * configure-git  - Configure your ~/.gitconfig with your info
+ * help           - Displays help dialog
+ * install        - Installs your instance of Paracord
+ * update         - Updates from your repo then executes appropritate commands
+ * update-path    - Updates your .local\_env file to include the paracord command to your path
+ * variables      - Displays Paracord variables
 
 ## WEB INSTALL
 
