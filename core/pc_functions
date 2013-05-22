@@ -94,10 +94,11 @@ function pc_updateSkelFiles() {
 #
 function pc_installSkelFiles() {
     # skel files
-    PC_ACTION='ln -s '
-    $TMPSKELDIR = $1
+    PC_ACTION="ln -s"
+    TMPSKELDIR=$1
+
     if [ $TMPSKELDIR = $PARACORDSKELCPDIR ]; then
-        PC_ACTION='cp ' # if it is the cp dir we want to copy not symlink
+        PC_ACTION="cp" # if it is the cp dir we want to copy not symlink
     fi
 
     cd $TMPSKELDIR
@@ -137,7 +138,7 @@ function pc_setupHomeBinDir() { # // get it home bender XD
     # bin dir
     cd $HOME
     if [ -d $HOME/bin ]; then
-       pc_echo "${RED_BOLD}Update your bin/ files as needed.${NC}"
+       pc_echo "Update your${RED_BOLD} bin/ ${NC}files as needed."
     else
        ln -s $PARACORDDIR/_bin $HOME/bin
     fi
@@ -158,6 +159,7 @@ function pc_setupVimDir() {
 # UPDATE
 function pc_performInstall() {
     
+    cd $PARACORDDIR
     PERFORM='install'
     if [ $# -gt 0 ] && [ $1 = "update" ]; then
         GIT=`which git`
@@ -172,7 +174,9 @@ function pc_performInstall() {
 
 
     pc_echo "Adding new skel files."
+    cd $PARACORDSKELDIR
     pc_${PERFORM}SkelFiles $PARACORDSKELDIR
+    cd $PARACORDSKELCPDIR
     pc_${PERFORM}SkelFiles $PARACORDSKELCPDIR
     
     ############
@@ -213,11 +217,9 @@ function pc_addParacordToPath() {
       #pc_echo "${RED_BOLD}Add paracord to your path?${NC} (y/n):"
       #read PC_REPLY
       #if [[ "`echo $PC_REPLY | tr [:upper:] [:lower:]`" = "y" ]]; then
-          if [ -f $HOME/.bash_env ]; then
-              $ECHO -e "" >> $HOME/.bash_env
-              $ECHO -e "# Added by Paracord " >> $HOME/.bash_env
-              $ECHO -e "PATH=\$PATH:${PARACORDBINDIR}" >> $HOME/.bash_env
-          fi
+          $ECHO -e "" >> $HOME/.local_env
+          $ECHO -e "# Added by Paracord " >> $HOME/.local_env
+          $ECHO -e "PATH=\$PATH:${PARACORDBINDIR}" >> $HOME/.local_env
       #fi
     fi
 }
