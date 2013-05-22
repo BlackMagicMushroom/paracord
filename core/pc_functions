@@ -3,6 +3,10 @@ ECHO=`which echo`
 PARACORDSKELDIR=$PARACORDDIR/skel
 PARACORDSKELCPDIR=$PARACORDDIR/skel.cp
 
+function pc_echo() {
+    $ECHO -e "${BLUE_BOLD}[Paracord]${NC} ${1} "
+}
+
 function pc_displayDirs() {
 
     echo ""
@@ -18,14 +22,14 @@ function pc_displayDirs() {
 }
 
 function pc_configurePC() {
-    $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Configure web-install script?${NC} (y/n):"
+    pc_echo "${RED_BOLD}Configure web-install script?${NC} (y/n):"
     read CONFIG_REPLY
     if [ `echo $CONFIG_REPLY | tr [:upper:] [:lower:]` = "y" ]; then
         echo "Enter your github username:"
         read GITHUB_USER
         sed -i "s/BlackMagicMushroom/$GITHUB_USER/" $PARACORDDIR/web_install.sh
         echo ""
-        $ECHO -e "${BLUE}[Paracord] ${GREEN_BOLD}{Success}${NC} web_install has been updated. You will need to commit and update your repo."
+        pc_echo "${GREEN_BOLD}{Success}${NC} web_install has been updated. You will need to commit and update your repo."
     fi
 }
 
@@ -70,7 +74,7 @@ function pc_updateSkelFiles() {
     do
       NEWFILENAME=`echo $f | sed 's/DOT//'`
       if [ ! -e $HOME/$NEWFILENAME ]; then
-         $ECHO -e "${GREEN}Adding ${LIGHT_GREEN}${NEWFILENAME}${NC}."
+         pc_echo "${GREEN}Adding ${LIGHT_GREEN}${NEWFILENAME}${NC}."
          ln -s $TMPSKELDIR/$f $HOME/$NEWFILENAME
       fi
     done
@@ -78,7 +82,7 @@ function pc_updateSkelFiles() {
     for f in $(ls --hide=DOT.*)
     do
       if [ ! -e $HOME/$f ]; then
-         $ECHO -e "${GREEN}Adding ${LIGHT_GREEN}${f}${NC}."
+         pc_echo "${GREEN}Adding ${LIGHT_GREEN}${f}${NC}."
          ln -s $TMPSKELDIR/$f $HOME/$f
       fi
     done
@@ -128,7 +132,7 @@ function pc_setupHomeBinDir() { # // get it home bender XD
     # bin dir
     cd $HOME
     if [ -d $HOME/bin ]; then
-       $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Update your bin/ files as needed.${NC}"
+       pc_echo "${RED_BOLD}Update your bin/ files as needed.${NC}"
     else
        ln -s $PARACORDDIR/_bin $HOME/bin
     fi
@@ -138,7 +142,7 @@ function pc_setupHomeBinDir() { # // get it home bender XD
 # .vim dir
 function pc_setupVimDir() {
     if [ -d $HOME/.vim ]; then
-       $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}You will need to update your .vim folder manually.${NC}"
+       pc_echo "${RED_BOLD}You will need to update your .vim folder manually.${NC}"
     else
        ln -s $PARACORDDIR/vim $HOME/.vim
     fi
@@ -146,23 +150,21 @@ function pc_setupVimDir() {
 
 # UPDATE
 function pc_performInstall() {
-    . ~/.colors
-    . $PARACORDCORE/paracord_signature
     
     PERFORM='install'
     if [ $# -gt 0 ] && [ $1 = "update" ]; then
      #   GIT=`which git`
-        $ECHO -e "${BLUE}[Paracord]${NC} Updating dot files repo."
+        pc_echo "Updating dot files repo."
      #   $GIT pull -q
     PERFORM='update'
     fi
     if [ $PERFORM = 'install' ] && [ -f $PARACORDCORE/.installed ]; then
-        $ECHO -e "${BLUE}[Paracord]${NC} You've already installed paracord ";
+        pc_echo "You've ${RED_BOLD}already${NC} installed paracord ";
         exit 1;
     fi
 
 
-    $ECHO -e "${BLUE}[Paracord]${NC} Adding new skel files."
+    pc_echo "Adding new skel files."
     # pc_${PERFORM}SkelFiles $PARACORDSKELDIR
     # pc_${PERFORM}SkelFiles $PARACORDSKELCPDIR
     
@@ -172,14 +174,14 @@ function pc_performInstall() {
     # git files are moving to skel
     #
     ############
-    # #$ECHO -e "${BLUE}[Paracord]${NC} Adding new git files."
+    # #pc_echo "Adding new git files."
     # # git components
     # #pc_symlinkGitFiles 
         
-    $ECHO -e "${BLUE}[Paracord]${NC} ${PURPLE}Checking for bin folder.${NC}"
+    pc_echo "${PURPLE}Checking for bin folder.${NC}"
     #pc_setupHomeBinDir
 
-    $ECHO -e "${BLUE}[Paracord]${NC} ${PURPLE}Checking for .vim folder.${NC}"
+    pc_echo "${PURPLE}Checking for .vim folder.${NC}"
     #pc_setupVimDir
     pc_addParacordToPath
 
@@ -192,7 +194,7 @@ function pc_performInstall() {
 }
 
 function pc_addParacordToPath() {
-    $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Add paracord to your path?${NC} (y/n):"
+    pc_echo "${RED_BOLD}Add paracord to your path?${NC} (y/n):"
     read PC_REPLY
     if [ `echo $PC_REPLY | tr [:upper:] [:lower:]` = "y" ]; then
         if [ -f $HOME/.bash_env ]; then
@@ -206,7 +208,7 @@ function pc_addParacordToPath() {
 # update gitconfig
 function pc_updateGitConfig() {
     if [ -f $HOME/.gitconfig ]; then
-        $ECHO -e "${BLUE}[Paracord]${NC} ${RED_BOLD}Configure gitconfig?${NC} (y/n):"
+        pc_echo "${RED_BOLD}Configure gitconfig?${NC} (y/n):"
         read REPLY
         if [ `echo $REPLY | tr [:upper:] [:lower:]` = "y" ]; then
             echo "Gimme your email address:"
@@ -216,7 +218,7 @@ function pc_updateGitConfig() {
             echo "Gimme your name:"
             read PC_REALNAME
             sed -i "s/UserName/$PC_REALNAME/" $HOME/.gitconfig
-            $ECHO -e "${GREEN_BOLD}[Success] .gitconfig hath been updated.${NC}"
+            pc_echo "${GREEN_BOLD}[Success] .gitconfig hath been updated.${NC}"
         fi
     fi
 }
