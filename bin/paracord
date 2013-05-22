@@ -28,6 +28,9 @@ case $1 in
   "configure")
     pc_configurePC
     ;;
+  "configure-git")
+    pc_updateGitConfig()
+    ;;
   "help")
     pc_help
     ;;

@@ -37,6 +37,7 @@ function pc_help() {
   $ECHO ""
   $ECHO " Available commands: "
   $ECHO "   configure       Configure Paracord repo"
+  $ECHO "   configure-git   Configure .gitconfig with your info"
   $ECHO "   help            Display this dialog"
   $ECHO "   install         Performs an install of dot files and environment configuration"
   $ECHO "   update          Performs an  update of dot files and environment configuration"
