@@ -12,11 +12,11 @@ Paracord dot files framework. Simply fork paracord drop your dot files into the
  * skel.cp/
 
 
-### \_bin
+### \_BIN
 This directory will be symlinked to $HOME/bin, if one exists this will not happen. You will be informed
 to update $HOME/bin manually.
 
-### bin
+### BIN
 Paracord bin directory where paracord executable lives.  
 
 ### CORE
@@ -46,5 +46,4 @@ The paracord command currently has two available subcommands:
 ## TODO
 
  * git remote url -- ?
- * Add default template files
  * uncomment out actions
