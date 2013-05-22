@@ -62,20 +62,26 @@ function pc_osdetection {
 
 
 
+# pc_updateSkelFiles and pc_installSkelFiles should be merged. That is all.
+#
 # accepts 1 argument location of skel dir
 # $PARACORDSKELDIR or $PARACORDSKELCPDIR
 #
 function pc_updateSkelFiles() {
     # skel files
-    $TMPSKELDIR = $1
-    cd $TMPSKELDIR
+    PC_ACTION="ln -s"
+    TMPSKELDIR=$1
+    if [ $TMPSKELDIR = $PARACORDSKELCPDIR ]; then
+        PC_ACTION="cp" # if it is the cp dir we want to copy not symlink
+    fi
 
+    cd $TMPSKELDIR
     for f in $(ls DOT.*)
     do
       NEWFILENAME=`echo $f | sed 's/DOT//'`
       if [ ! -e $HOME/$NEWFILENAME ]; then
          pc_echo "Adding ${LIGHT_GREEN}${NEWFILENAME}${NC}."
-         ln -s $TMPSKELDIR/$f $HOME/$NEWFILENAME
+         $PC_ACTION $TMPSKELDIR/$f $HOME/$NEWFILENAME
       fi
     done
 
@@ -83,7 +89,7 @@ function pc_updateSkelFiles() {
     do
       if [ ! -e $HOME/$f ]; then
          pc_echo "Adding ${LIGHT_GREEN}${f}${NC}."
-         ln -s $TMPSKELDIR/$f $HOME/$f
+         $PC_ACTION $TMPSKELDIR/$f $HOME/$f
       fi
     done
 
