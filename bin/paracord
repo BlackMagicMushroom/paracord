@@ -10,6 +10,7 @@ ECHO=`which echo`
 
 source $PARACORDCORE/pc_functions
 source $PARACORDCORE/.colors
+source $PARACORDCORE/.paracord_signature
 
 if [ $# -lt 1 ]; then
   $ECHO -e "You didn't specify a command"
