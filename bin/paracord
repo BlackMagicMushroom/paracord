@@ -29,7 +29,7 @@ case $1 in
     pc_configurePC
     ;;
   "configure-git")
-    pc_updateGitConfig()
+    pc_updateGitConfig
     ;;
   "help")
     pc_help
