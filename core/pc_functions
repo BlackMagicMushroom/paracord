@@ -106,7 +106,7 @@ function pc_installSkelFiles() {
     do
       NEWFILENAME=`echo $f | sed 's/DOT//'`
       if [ -e $HOME/$NEWFILENAME ]; then
-         mv $HOME/$NEWFILENAME $HOME/$NEWFILENAME.pc.bak
+         mv $HOME/$NEWFILENAME $HOME/$NEWFILENAME.paracord.bak
       fi
       $PC_ACTION $TMPSKELDIR/$f $HOME/$NEWFILENAME
     done
@@ -114,7 +114,7 @@ function pc_installSkelFiles() {
     for f in $(ls --hide=DOT.*)
     do
       if [ -e $HOME/$f ]; then
-         mv $HOME/$f $HOME/${f}.pc.bak
+         mv $HOME/$f $HOME/${f}.paracord.bak
       fi
       $PC_ACTION $TMPSKELDIR/$f $HOME/$f
     done
@@ -128,7 +128,7 @@ function pc_symlinkGitFiles() {
       NEWFILENAME=`echo $f | sed 's/DOT//'`
       echo $NEWFILENAME
       if [ -e $HOME/$NEWFILENAME ]; then
-          mv $HOME/$NEWFILENAME $HOME/$NEWFILENAME.pc.bak
+          mv $HOME/$NEWFILENAME $HOME/$NEWFILENAME.paracord.bak
       fi
       cp $DOTGITDIR/$f $HOME/$NEWFILENAME
     done
