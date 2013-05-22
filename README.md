@@ -22,9 +22,6 @@ Paracord bin directory where paracord executable lives.
 ### CORE
 Paracord specific functions and files.  
 
- * pc\_functions - This file houses execution functions used by paracord.
- * pc\_signature - This file is a logo displayed at execution
-
 ### SKEL
 All dot files and folders here will be symlinked from $PARACORDDIR/skel/{filename} to $HOME/{filename}.  
 Dot files and folders should be prefixed with DOT (e.g. DOT.bashrc, DOT.login, DOT.vim) and will be
@@ -44,11 +41,12 @@ The paracord command currently has two available subcommands:
  * help         - Displays help dialog
  * install      - Installs your instance of Paracord
  * update       - Updates from your repo then executes appropritate commands
- * update-path  - Updates your .bash\_env file to include the paracord command to your path
+ * update-path  - Updates your .local\_env file to include the paracord command to your path
  * variables    - Displays Paracord variables
 
 ## WEB INSTALL
 
-## TODO
+From the commandline execute the following commands (assumes you have git and curl installed).
 
- * final test
+ * curl -k https://raw.github.com/BlackMagicMushroom/paracord/master/web_install.sh | bash
+
