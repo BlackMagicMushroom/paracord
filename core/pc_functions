@@ -1,0 +1,254 @@
+#!/bin/bash
+ECHO=`which echo`
+PARACORDSKELDIR=$PARACORDDIR/skel
+PARACORDSKELCPDIR=$PARACORDDIR/skel.cp
+
+function pc_echo() {
+    $ECHO -e "${BLUE_BOLD}[Paracord]${NC} ${1} "
+}
+
+function pc_displayDirs() {
+
+    echo ""
+    if [ $# -lt 1 ]; then
+        $ECHO -e "PARACORDDIR:         ${PARACORDDIR}"
+        $ECHO -e "PARACORDBINDIR:      ${PARACORDBINDIR}"
+        $ECHO -e "PARACORDCORE:        ${PARACORDCORE}"
+        $ECHO -e "PARACORDSKELDIR:     ${PARACORDSKELDIR}"
+        $ECHO -e "PARACORDSKELCPDIR:   ${PARACORDSKELCPDIR}"
+    fi
+
+    echo ${!1}
+}
+
+function pc_configurePC() {
+    pc_echo "${RED_BOLD}Configure web-install script?${NC} (y/n):"
+    read CONFIG_REPLY
+    if [ `echo $CONFIG_REPLY | tr [:upper:] [:lower:]` = "y" ]; then
+        echo "Enter your github username:"
+        read GITHUB_USER
+        sed -i "s/BlackMagicMushroom/$GITHUB_USER/" $PARACORDDIR/web_install.sh
+        echo ""
+        pc_echo "${GREEN_BOLD}[Success]${NC} web_install has been updated. You will need to commit and update your repo."
+    fi
+}
+
+function pc_help() {
+  $ECHO ""
+  $ECHO " Available commands: "
+  $ECHO "   configure       Configure Paracord repo"
+#  $ECHO "   configure-git   Configure .gitconfig with your info"
+  $ECHO "   help            Display this dialog"
+  $ECHO "   install         Performs an install of dot files and environment configuration"
+  $ECHO "   update          Performs an  update of dot files and environment configuration"
+  $ECHO "   update-path     Adds ${PARACORDBINDIR} to your path in your .local_env file"
+  $ECHO "   variables       Displays Paracord specific variables"
+  $ECHO ""
+}
+
+# OS Detection
+function pc_osdetection {
+  OS=$(awk '/DISTRIB_ID=/' /etc/*-release | sed 's/DISTRIB_ID=//' | tr '[:upper:]' '[:lower:]')
+  ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
+  VERSION=$(awk '/DISTRIB_RELEASE=/' /etc/*-release | sed 's/DISTRIB_RELEASE=//' | sed 's/[.]0/./')
+  
+  if [ -z "$OS" ]; then
+    OS=$(awk '{print $1}' /etc/*-release | tr '[:upper:]' '[:lower:]')
+  fi
+  
+  if [ -z "$VERSION" ]; then
+    VERSION=$(awk '{print $3}' /etc/*-release)
+  fi
+}
+
+
+
+# pc_updateSkelFiles and pc_installSkelFiles should be merged. That is all.
+#
+# accepts 1 argument location of skel dir
+# $PARACORDSKELDIR or $PARACORDSKELCPDIR
+#
+function pc_updateSkelFiles() {
+    # skel files
+    PC_ACTION="ln -s"
+    TMPSKELDIR=$1
+    if [ $TMPSKELDIR = $PARACORDSKELCPDIR ]; then
+        PC_ACTION="cp" # if it is the cp dir we want to copy not symlink
+    fi
+
+    cd $TMPSKELDIR
+    for f in $(ls DOT.*)
+    do
+      NEWFILENAME=`echo $f | sed 's/DOT//'`
+      if [ ! -e $HOME/$NEWFILENAME ]; then
+         pc_echo "Adding ${LIGHT_GREEN}${NEWFILENAME}${NC}."
+         $PC_ACTION $TMPSKELDIR/$f $HOME/$NEWFILENAME
+      fi
+    done
+
+    for f in $(ls --hide=DOT.*)
+    do
+      if [ ! -e $HOME/$f ]; then
+         pc_echo "Adding ${LIGHT_GREEN}${f}${NC}."
+         $PC_ACTION $TMPSKELDIR/$f $HOME/$f
+      fi
+    done
+
+}
+
+# accepts 1 argument location of skel dir
+# $PARACORDSKELDIR or $PARACORDSKELCPDIR
+#
+function pc_installSkelFiles() {
+    # skel files
+    PC_ACTION="ln -s"
+    TMPSKELDIR=$1
+
+    if [ $TMPSKELDIR = $PARACORDSKELCPDIR ]; then
+        PC_ACTION="cp" # if it is the cp dir we want to copy not symlink
+    fi
+
+    cd $TMPSKELDIR
+    for f in $(ls DOT.*)
+    do
+      NEWFILENAME=`echo $f | sed 's/DOT//'`
+      if [ -e $HOME/$NEWFILENAME ]; then
+         mv $HOME/$NEWFILENAME $HOME/$NEWFILENAME.paracord.bak
+      fi
+      $PC_ACTION $TMPSKELDIR/$f $HOME/$NEWFILENAME
+    done
+
+    for f in $(ls --hide=DOT.*)
+    do
+      if [ -e $HOME/$f ]; then
+         mv $HOME/$f $HOME/${f}.paracord.bak
+      fi
+      $PC_ACTION $TMPSKELDIR/$f $HOME/$f
+    done
+}
+
+# git components
+function pc_symlinkGitFiles() {
+    cd $DOTGITDIR
+    for f in $(ls DOT.*)
+    do
+      NEWFILENAME=`echo $f | sed 's/DOT//'`
+      echo $NEWFILENAME
+      if [ -e $HOME/$NEWFILENAME ]; then
+          mv $HOME/$NEWFILENAME $HOME/$NEWFILENAME.paracord.bak
+      fi
+      cp $DOTGITDIR/$f $HOME/$NEWFILENAME
+    done
+}
+
+function pc_setupHomeBinDir() { # // get it home bender XD
+    # bin dir
+    cd $HOME
+    if [ -d $HOME/bin ]; then
+       pc_echo "Update your${RED_BOLD} bin/ ${NC}files as needed."
+    else
+       ln -s $PARACORDDIR/_bin $HOME/bin
+    fi
+
+}
+
+# function not used at this time
+# .vim should be included in skel or skel.cp
+# .vim dir
+function pc_setupVimDir() {
+    if [ -d $HOME/.vim ]; then
+       pc_echo "You will need to update your .vim folder ${RED_BOLD}manually${NC}."
+    else
+       ln -s $PARACORDDIR/_vim $HOME/.vim
+    fi
+}
+
+# UPDATE
+function pc_performInstall() {
+    
+    cd $PARACORDDIR
+    PERFORM='install'
+    if [ $# -gt 0 ] && [ $1 = "update" ]; then
+        GIT=`which git`
+        pc_echo "Updating Paracord."
+        $GIT pull -q
+    PERFORM='update'
+    fi
+    if [ $PERFORM = 'install' ] && [ -f $PARACORDCORE/.installed ]; then
+        pc_echo "You've ${RED_BOLD}already${NC} installed paracord ";
+        exit 1;
+    fi
+
+
+    pc_echo "Adding new skel files."
+    cd $PARACORDSKELDIR
+    pc_${PERFORM}SkelFiles $PARACORDSKELDIR
+    cd $PARACORDSKELCPDIR
+    pc_${PERFORM}SkelFiles $PARACORDSKELCPDIR
+    
+    ############
+    #
+    # leaving out for now
+    # git files are moving to skel
+    #
+    ############
+    # #pc_echo "Adding new git files."
+    # # git components
+    # #pc_symlinkGitFiles 
+        
+    pc_echo "Checking for ${PURPLE_BOLD}bin${NC} folder."
+    pc_setupHomeBinDir
+
+    ############
+    #
+    # leaving out for now
+    #
+    ############
+    #pc_echo "Checking for ${PURPLE_BOLD}.vim${NC} folder."
+    #pc_setupVimDir
+
+    pc_addParacordToPath
+
+    # move back to PARACORDDIR
+    cd $PARACORDDIR
+
+    touch $PARACORDCORE/.installed
+    date +"%Y/%m/%d %H:%I %Z" > $PARACORDCORE/.installed
+    
+}
+
+function pc_addParacordToPath() {
+    if [ -z "`type -t paracord`" ]; then 
+      #fix logic here it sucks
+      #
+      #pc_echo "${RED_BOLD}Add paracord to your path?${NC} (y/n):"
+      #read PC_REPLY
+      #if [[ "`echo $PC_REPLY | tr [:upper:] [:lower:]`" = "y" ]]; then
+          pc_echo "Updating bash PATH"
+          $ECHO -e "" >> $HOME/.local_env
+          $ECHO -e "# Added by Paracord " >> $HOME/.local_env
+          $ECHO -e "PATH=\$PATH:${PARACORDBINDIR}" >> $HOME/.local_env
+          pc_echo "type . ~/.bashrc for PATH changes to take effect"
+      #fi
+    fi
+}
+
+# update gitconfig
+function pc_updateGitConfig() {
+    if [ -f $HOME/.gitconfig ]; then
+        if [ $1 != 'hush' ]; then
+            pc_echo "${RED_BOLD}Configure gitconfig?${NC} (y/n):"
+            read REPLY
+        fi
+        if [ $1 = 'hush'] || [ `echo $REPLY | tr [:upper:] [:lower:]` = "y" ]; then
+            echo "Gimme your email address:"
+            read PC_EMAIL
+            sed -i "s/user\@domain\.com/$PC_EMAIL/" $HOME/.gitconfig
+            echo ""
+            echo "Gimme your name:"
+            read PC_REALNAME
+            sed -i "s/UserName/$PC_REALNAME/" $HOME/.gitconfig
+            pc_echo "${GREEN_BOLD}[Success]${NC} .gitconfig hath been updated."
+        fi
+    fi
+}

@@ -1,0 +1,51 @@
+#
+##############
+## CLI options
+##############
+# turn on cli vi
+set -o vi
+
+# shell options
+shopt -s checkwinsize
+shopt -s cdable_vars
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+
+# ENV Variables
+export PS1='[\[\e[44;1;37m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[42;1;37m\]\h\[\e[0m\] \[\e[31;1m\]\W\[\e[0m\]\[\e[1;36m\]$(__git_ps1 " (%s)")\[\e[0m\]]\$ '
+# export PS1='[\[\e[44;1;37m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[42;1;37m\]\h\[\e[0m\] \[\e[31;1m\]\W\[\e[0m\]\[\e[1;36m\]\[\e[0m\]]\$ '
+export HISTTIMEFORMAT='%F %T '
+export LSCOLORS="ExGxFxdxCxDxDxhbadExEx"
+export EDITOR="/usr/bin/vim"
+export PAGER='/usr/bin/less'
+
+
+
+# adds bash functions like lowercase, mkcd and patthadd
+if [[ -z "`type -t pathadd`" && -f ~/.bash_functions ]]; then
+    source ~/.bash_functions
+fi
+
+# turn on home bin dir
+if [ -d ~/bin ]; then
+    pathadd "~/bin"
+fi
+
+if [ -f /etc/bash_completion ]; then
+    source /etc/bash_completion
+fi
+
+if [ -f ~/.local_env ]; then
+    source ~/.local_env
+fi
+
+###########################
+#   Uncomment as needed   #
+###########################
+
+# old ps1's
+# export PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}[\u@\h \W]\$ '
+# export PS1='[\[\e[34;1m\]\u\[\e[0m\]@\[\e[31;1m\]Eat\[\e[0m\]\e[1;33mAt\e[0m\e[1;32mJoes\[\e[0m\] \[\e[37;1m\]\W\[\e[0m\]]\$ '
+# export PS1='[\[\e[34;1m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[1;31m\]Eat\[\e[0m\]\[\e[1;33m\]At\[\e[0m\]\[\e[1;32m\]Joes\[\e[0m\] \[\e[37;1m\]\W\[\e[0m\]]\$ ' # Standard Colorized '[\u@\h \W]\$ '
+# export PS1='[\[\e[34;1m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[1;32m\]\h\[\e[0m\] \[\e[37;1m\]\W\[\e[0m\]\[\e[1;36m\]$(__git_ps1 " (%s)")\[\e[0m\]]\$ ' # standard with git branch instance '[\u@\h \W (git-branch)]\$ '

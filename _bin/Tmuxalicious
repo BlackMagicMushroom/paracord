@@ -1,0 +1,67 @@
+#!/bin/bash
+if [ -e $HOME/.bashrc ]; then
+. $HOME/.bashrc
+fi
+
+if [ $# == 0 ]; then
+   echo "I need a session environment buddy."
+elif [ $1 == "--list" ]; then
+   SPACER="   "
+   SESSION_COUNT="`ls -l ~/.tmuxalicious/*.tmux 2> /dev/null | wc -l `"
+   echo "$SPACER TMUXALICIOUS SESSION LIST"
+   if [ ! -d ~/.tmuxalicious ]; then
+      echo "$SPACER$SPACER$HOME/.tmuxalicious Does not exist!"
+      exit 0
+   elif [[ (($SESSION_COUNT == 0)) ]]; then
+      echo "$SPACER$SPACER$HOME/.tmuxalicious contains NO sessions!"
+      exit 0
+   fi
+
+   for f in $(ls ~/.tmuxalicious/*.tmux)
+   do
+     SESSIONNAME=`echo $f | sed 's/.tmux//'`
+     echo "$SPACER$SPACER$SESSIONNAME"
+   done
+   exit 0
+fi
+
+sessionName=$HOSTNAME"-"$1
+`tmux has -t $sessionName` 
+blah=$?
+if [ $blah  -eq 0 ]; then
+    read -p "Session exists. Attach? " REPLY
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        tmux -2 attach-session -t $sessionName
+        exit 0
+    fi
+fi
+
+reqSession=$1
+if [ -e $HOME/.tmuxalicious/$reqSession.tmux ]; then
+    tmux new-session -d -s $sessionName
+    tmux rename-window -t $sessionName:0 'General' 
+    tmux new-window -t $sessionName:1 -n 'HOME' 
+    sh $HOME/.tmuxalicious/$reqSession.tmux
+else
+    echo "Please try a session environment which actually exists.";
+    exit 0
+fi
+
+cd ~
+tmux select-window -t $sessionName:1
+tmux -2 attach-session -t $sessionName
+exit 0
+
+
+################################################################
+##  $reqSession.tmux files should look like:
+## ------------------------------------------
+##        #!/bin/bash
+##        cd  /path/to/project
+##        tmux new-window -t $sessionName:5 -n 'projectName'  
+##        cd  /path/to/project/logs
+##        tmux new-window -t $sessionName:5 -n 'projectName-logs'  
+## ------------------------------------------
+## 
+################################################################

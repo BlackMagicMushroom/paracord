@@ -1,0 +1,32 @@
+#!/bin/bash
+# NOT MY OWN!
+# Came from: http://vvv.tobiassjosten.net/symfony/symfony2-cli-bash-script 
+#                   and
+#            https://gist.github.com/275690
+# 
+# # Symfony1
+# PWD=$(pwd)
+# 
+# while [ "$PWD" != '/' ]; do
+#         if [ -f "$PWD/symfony" ]; then
+#                 php "$PWD/symfony" $@
+#                 exit
+#         fi
+#         cd ..
+# done
+# 
+# echo 'Symfony file could not be found!'
+
+# symfony2
+# Expand globs to null when there are no matches
+shopt -s nullglob
+
+# Look for either a '<subdir>/console' or a 'symfony' file
+until
+ file=(*/console symfony); [[ -f "$file" ]] && php "$file" "$@" && exit;
+ do
+    [[ "$PWD" == "/" ]] && break;
+    cd ..
+ done
+
+echo 'No Symfony file could be found!'
