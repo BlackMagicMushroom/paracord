@@ -55,5 +55,5 @@ that can exist across multiple systems all exist in the appropriate .bash\_{X} f
 
 From the commandline execute the following commands (assumes you have git and curl installed).
 
- * curl -k https://raw.github.com/druid628/paracord/master/web\_install.sh | bash
+ * curl -k https://raw.github.com/druid628/paracord/master/web_install.sh | bash
 
