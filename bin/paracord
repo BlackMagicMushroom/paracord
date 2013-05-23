@@ -29,9 +29,9 @@ case $1 in
     pc_configurePC
     pc_addParacordToPath
     ;;
-  "configure-git")
-    pc_updateGitConfig hush
-    ;;
+#   "configure-git")
+#     pc_updateGitConfig hush
+#     ;;
   "help")
     pc_help
     ;;
