@@ -6,6 +6,10 @@ export HISTTIMEFORMAT='%F %T '
 # turn on cli vi
 # set -o vi
 
+if [[ -f ~/.colors ]]; then
+    source ~/.colors
+fi
+
 # adds bash functions like lowercase, mkcd and patthadd
 if [[ -z "`type -t pathadd`" && -f ~/.bash_functions ]]; then
     source ~/.bash_functions
