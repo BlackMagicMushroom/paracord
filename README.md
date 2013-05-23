@@ -1,7 +1,9 @@
 # PARACORD
 
 Paracord dot files framework. Simply fork paracord drop your dot files into the
- appropriate directory and you are locked and loaded.
+ appropriate directory and you are locked and loaded.  
+  
+Original source: https://github.com/BlackMagicMushroom/paracord 
 
 ## DIRECTORIES
 
