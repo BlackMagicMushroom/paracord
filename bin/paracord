@@ -27,9 +27,10 @@ fi
 case $1 in
   "configure")
     pc_configurePC
+    pc_addParacordToPath
     ;;
   "configure-git")
-    pc_updateGitConfig
+    pc_updateGitConfig hush
     ;;
   "help")
     pc_help
