@@ -1,0 +1,40 @@
+# Switch Java ENVS
+function useJava()
+{
+  # needs to relink the bin's java & javacc
+  PROPOSEDJAVAVER=$1
+  ECHO=`which echo`
+
+  if [ $JAVAENV628 -eq $PROPOSEDJAVAVER ]; then
+      echo "You are already using Java${JAVAENV628}"
+      return 1
+  fi
+
+  if [ -d /usr/lib/jvm/java-${PROPOSEDJAVAVER}-openjdk-amd64/jre/lib ] && [ -d /usr/lib/jvm/java-${PROPOSEDJAVAVER}-openjdk-common/jre/lib ]; then
+    $ECHO -e "Current: ${GREEN_BOLD}Java${JAVAENV628}${NC} Switchto: ${RED_BOLD}Java${PROPOSEDJAVAVER}${NC}"
+    echo "Are you sure you want to switch java environments? (y/n)"
+    read X_JDKSWAP
+    if [ ! -z $X_JDKSWAP ] && [ `echo $X_JDKSWAP | tr [:upper:] [:lower:]`  = 'y' ]; then
+      export CLASSPATH=""
+
+      for f in $(ls /usr/lib/jvm/java-${PROPOSEDJAVAVER}-openjdk-amd64/jre/lib/*.jar)
+      do 
+        if [ ! `basename $f` = 'rt.jar' ]; then
+          classpathadd $f 
+        fi
+      done
+      for f in $(ls /usr/lib/jvm/java-${PROPOSEDJAVAVER}-openjdk-common/jre/lib/*.jar)
+      do 
+        if [ ! `basename $f` == 'rt.jar' ]; then
+          classpathadd $f 
+        fi
+      done
+      export JAVAENV628=${PROPOSEDJAVAVER}
+      echo "Now using Java${JAVAENV628}"
+    fi
+  unset X_JDKSWAP
+  else
+      $ECHO -e "${RED_BOLD}[ERROR]${NC}: The proposed env is not installed or is not in the correct location."
+  fi
+  unset PROPOSEDJAVAVER
+}

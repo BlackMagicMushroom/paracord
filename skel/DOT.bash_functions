@@ -1,5 +1,19 @@
 # Included in Paracord compliments of Micah Breedlove ( @druid628 )
 #
+
+# include_function_file 
+# Taken from ioBashExtras by Jeremy G. ( @jgintlio )
+#
+# example: include_function_file "$HOME/.bash_functions"
+function include_function_file 
+{
+   if [ -f "${1}" ];then
+     source "${1}" 
+   else
+    echo "File not found: ${1}"
+   fi
+}
+
 # -*- shell-script -*-
 # mkcd: a script which declares a function, mkcd.
 # Time-stamp: <2002-09-03 13:27:08 EDT root mkcd>
@@ -60,16 +74,12 @@ function classpathadd()
     fi
 }
 
-# include_function_file 
-# Taken from ioBashExtras by Jeremy G. ( @jgintlio )
-#
-# example: include_function_file "$HOME/.bash_functions"
-function include_function_file 
-{
-   if [ -f "${1}" ];then
-     source "${1}" 
-   else
-    echo "File not found: ${1}"
-   fi
-}
+if [ -f ~/.local_functions ]; then
+    include_function_file ~/.local_functions
+fi
 
+# ubuntu convenience function
+function doihave() 
+{
+    dpkg --get-selections | grep -i $1
+}
