@@ -16,12 +16,14 @@ alias duh='du -h'					# because i kept typing duh instead of du -h
 alias gerp="egrep --exclude=\*.git\* -r -n"
 alias records='uprecords'
 alias bhg='cat $HISTFILE| grep'
-alias git='~/bin/git-achievements'
 alias diff="/usr/bin/diff -y"				# diff preference
 alias getComposer='curl -s http://getcomposer.org/installer | php'
 alias ifconfig.me="curl ifconfig.me"
 alias zulu='date -u "+%d%b%Y-%H%Mz"'
 alias now='date "+%d%b%Y-%H%M"'
+if [ -f '~/bin/git-achievements' ]; then
+    alias git='~/bin/git-achievements'
+fi
 
 # ack-grep-less
 if [ -f '/usr/bin/ack-grep' ]; then
