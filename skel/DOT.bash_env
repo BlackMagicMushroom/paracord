@@ -30,8 +30,8 @@ if [[ -z "`type -t pathadd`" && -f ~/.bash_functions ]]; then
 fi
 
 # turn on home bin dir
-if [ -d ~/bin ]; then
-    pathadd "~/bin"
+if [ -d $HOME/bin ]; then
+    pathadd $HOME/bin
 fi
 
 if [ -f /etc/bash_completion ]; then
