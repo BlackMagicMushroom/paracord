@@ -51,6 +51,9 @@ case $1 in
         pc_displayDirs ${2}
     fi
     ;;
+  "status")
+    pc_gitStatus
+    ;;
   *)
     $ECHO -e "${RED}ERROR:${NC}"
     pc_help

@@ -24,3 +24,11 @@ fi
 if [ -f ~/.bash_functions ] ; then
         . ~/.bash_functions
 fi
+
+# Host Specific configs for roaming home directories
+LHN=`hostname -s |tr '[:upper:]' '[:lower:]'`
+if [ -f ~/.bash_$LHN ]; then
+  echo "Importing Host ($LHN) Specific Variables"
+fi
+
+

@@ -252,3 +252,9 @@ function pc_updateGitConfig() {
         fi
     fi
 }
+
+# paracord status
+function pc_gitStatus() {
+    cd $PARACORDDIR
+    git status
+}
