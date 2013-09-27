@@ -78,7 +78,7 @@ function pc_updateSkelFiles() {
     fi
 
     cd $TMPSKELDIR
-    for f in $(ls DOT.*)
+    for f in $(ls -d DOT.*)
     do
       NEWFILENAME=`echo $f | sed 's/DOT//'`
       if [ ! -e $HOME/$NEWFILENAME ]; then
@@ -87,7 +87,7 @@ function pc_updateSkelFiles() {
       fi
     done
 
-    for f in $(ls --hide=DOT.*)
+    for f in $(ls -d --hide=DOT.*)
     do
       if [ ! -e $HOME/$f ]; then
          pc_echo "Adding ${LIGHT_GREEN}${f}${NC}."
@@ -110,7 +110,7 @@ function pc_installSkelFiles() {
     fi
 
     cd $TMPSKELDIR
-    for f in $(ls DOT.*)
+    for f in $(ls -d DOT.*)
     do
       NEWFILENAME=`echo $f | sed 's/DOT//'`
       if [ -e $HOME/$NEWFILENAME ]; then
@@ -119,7 +119,7 @@ function pc_installSkelFiles() {
       $PC_ACTION $TMPSKELDIR/$f $HOME/$NEWFILENAME
     done
 
-    for f in $(ls --hide=DOT.*)
+    for f in $(ls -d --hide=DOT.*)
     do
       if [ -e $HOME/$f ]; then
          mv $HOME/$f $HOME/${f}.paracord.bak
