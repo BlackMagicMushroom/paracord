@@ -4,10 +4,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-if [ -f ~/.bash_functions ]; then
-    . ~/.bash_functions
-fi
-
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -72,18 +68,37 @@ xterm*|rxvt*)
     ;;
 esac
 
+# A collection of useful bash_functions
+if [ -f ~/.bash_functions ]; then
+    . ~/.bash_functions
+fi
+
+# A collection of colors made available in the shell
+if [[ -f ~/.colors ]]; then    
+    source ~/.colors           
+fi
+
+# The default system bashrc
+if [ -f /etc/bash.bashrc ] ; then
+        . /etc/bash.bashrc
+fi
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
+#
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# Environment specific (PS1/shopt/set/ENV variables)
 if [ -f ~/.bash_env ]; then
     . ~/.bash_env
 fi
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-[[ -d "$HOME/.rvm/bin/" ]] && PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+# Host Specific configs for roaming home directories
+LHN=`hostname -s |tr '[:upper:]' '[:lower:]'`
+if [ -f ~/.bash_$LHN ]; then
+  echo "Importing Host ($LHN) Specific Variables"
+fi
