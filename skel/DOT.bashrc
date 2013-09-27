@@ -5,6 +5,10 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+if [ -f ~/.bash_functions ] ; then
+        . ~/.bash_functions
+fi
+
 if [[ -f ~/.colors ]]; then    
     source ~/.colors           
 fi
@@ -19,10 +23,6 @@ fi
 
 if [ -f ~/.bash_env ] ; then
         . ~/.bash_env
-fi
-
-if [ -f ~/.bash_functions ] ; then
-        . ~/.bash_functions
 fi
 
 # Host Specific configs for roaming home directories
