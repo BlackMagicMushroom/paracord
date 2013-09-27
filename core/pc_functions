@@ -40,6 +40,7 @@ function pc_help() {
 #  $ECHO "   configure-git   Configure .gitconfig with your info"
   $ECHO "   help            Display this dialog"
   $ECHO "   install         Performs an install of dot files and environment configuration"
+  $ECHO "   status          Returns the (git) status of your Paracord environment"
   $ECHO "   update          Performs an  update of dot files and environment configuration"
   $ECHO "   update-path     Adds ${PARACORDBINDIR} to your path in your .local_env file"
   $ECHO "   variables       Displays Paracord specific variables"
