@@ -1,7 +1,9 @@
 # PARACORD
 
 Paracord dot files framework. Simply fork paracord drop your dot files into the
- appropriate directory and you are locked and loaded.
+ appropriate directory and you are locked and loaded.  
+  
+Original source: https://github.com/BlackMagicMushroom/paracord 
 
 ## DIRECTORIES
 
@@ -55,5 +57,5 @@ that can exist across multiple systems all exist in the appropriate .bash\_{X} f
 
 From the commandline execute the following commands (assumes you have git and curl installed).
 
- * curl -k https://raw.github.com/BlackMagicMushroom/paracord/master/web_install.sh | bash
+ * curl -k https://raw.github.com/druid628/paracord/master/web_install.sh | bash
 

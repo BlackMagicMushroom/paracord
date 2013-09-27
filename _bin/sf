@@ -4,20 +4,6 @@
 #                   and
 #            https://gist.github.com/275690
 # 
-# # Symfony1
-# PWD=$(pwd)
-# 
-# while [ "$PWD" != '/' ]; do
-#         if [ -f "$PWD/symfony" ]; then
-#                 php "$PWD/symfony" $@
-#                 exit
-#         fi
-#         cd ..
-# done
-# 
-# echo 'Symfony file could not be found!'
-
-# symfony2
 # Expand globs to null when there are no matches
 shopt -s nullglob
 
