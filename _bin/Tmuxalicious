@@ -19,8 +19,9 @@ elif [ $1 == "--list" ]; then
 
    for f in $(ls ~/.tmuxalicious/*.tmux)
    do
-     SESSIONNAME=`echo $f | sed 's/\.tmux$//'`
-     echo "$SPACER$SPACER$SESSIONNAME"
+     NAME=`echo $f | sed 's/\.tmux$//'`
+     SESSIONNAME=`basename $NAME`
+     echo "$SPACER$SPACER${SESSIONNAME%.tmux}"
    done
    exit 0
 fi
