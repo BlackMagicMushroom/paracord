@@ -81,3 +81,19 @@ function doihave()
 {
     dpkg --get-selections | grep -i $1
 }
+
+
+# given a pid 
+function getOutputFile()
+{
+    if [ $# -ne 1 ]; then
+        echo "Not enough stuff"
+        return
+    fi
+
+    if [ -h "/proc/${1}/fd/1" ]; then
+        echo `readlink  -f /proc/${1}/fd/1`
+    else
+        echo "Sorry Charlie."
+    fi
+}

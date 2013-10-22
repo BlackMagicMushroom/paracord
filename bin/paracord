@@ -7,13 +7,17 @@ PARACORDDIR=`pwd`
 PARACORDCORE=`pwd`"/core"
 ECHO=`which echo`
 
+if [[ $1 = 'commands' ]]; then
+  $ECHO -e "Usage: $0 configure|help|install|status|update|update-path|variables"
+  exit 0;
+fi
 
 source $PARACORDCORE/pc_functions
 source $PARACORDCORE/.colors
 source $PARACORDCORE/.paracord_signature
 
+# configure|help|install|status|update|update-path|variables
 if [ $# -lt 1 ]; then
-  $ECHO -e "You didn't specify a command"
   pc_help
   exit 1
 # need to fix this logic cause it sucks
