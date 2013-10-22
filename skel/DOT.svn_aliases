@@ -9,4 +9,5 @@ if [ -f '/usr/bin/svn' ]; then
  alias getAdds="svn st |grep '^A' | cut -d ' ' -f 8"	# gets only files which have been added to svn's control and have yet to be committed
  alias 2BC="svn st |egrep '^A|^M' | cut -d ' ' -f 8"	# 2 Be Committed - only files which have been modified or added & are awaiting to be committed
  alias hideNew="svn st |sed '/?/d' | cut -d ' ' -f 8"	# give me everything  (including external repos) except new unrevisioned files
+ alias svnGetAuthors="svn log --quiet | grep "^r" | awk '{print $3}' | sort | uniq" # give me authors
 fi
