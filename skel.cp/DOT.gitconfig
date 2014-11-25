@@ -5,19 +5,22 @@
     st         = status
     ci         = commit
     cia        = commit -a
+    get        = fetch
     br         = branch
     co         = checkout
     df         = diff
-    pl         = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
-    pla        = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all --
     lg         = log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     lol        = log --graph --decorate --pretty=oneline --abbrev-commit
     lola       = log --graph --decorate --pretty=oneline --abbrev-commit --all
     ls         = ls-files
+    pl         = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    pla        = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all --
     changed    = diff --name-only master..develop
+    cr         = diff --no-prefix HEAD~..HEAD
     make-patch = diff --no-prefix
     pet-kitten = rebase
-    cr         = diff --no-prefix HEAD~..HEAD
+    ignore     = update-index --assume-unchanged                                                                                                                                                                 
+    rewatch    = update-index --no-assume-unchanged  
 [color]
     ui = auto
 [color "branch"]
@@ -33,3 +36,7 @@
         added = yellow
       changed = green
     untracked = cyan
+[core]
+	excludesfile = /home/druid/.gitignore_global
+[push]
+  default = current
