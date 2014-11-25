@@ -6,27 +6,28 @@
 [ -z "$PS1" ] && return
 
 if [ -f ~/.bash_functions ] ; then
-        . ~/.bash_functions
+        source ~/.bash_functions
 fi
 
 if [[ -f ~/.colors ]]; then    
-    source ~/.colors           
+        source ~/.colors           
 fi
 
 if [ -f /etc/bash.bashrc ] ; then
-        . /etc/bash.bashrc
+        source /etc/bash.bashrc
 fi
 
 if [ -f ~/.bash_aliases ] ; then
-        . ~/.bash_aliases
+        source ~/.bash_aliases
 fi
 
 if [ -f ~/.bash_env ] ; then
-        . ~/.bash_env
+        source ~/.bash_env
 fi
 
 # Host Specific configs for roaming home directories
 LHN=`hostname -s |tr '[:upper:]' '[:lower:]'`
 if [ -f ~/.bash_$LHN ]; then
-  echo "Importing Host ($LHN) Specific Variables"
+        echo "Importing Host ($LHN) Specific Variables"
+        source ~/.bash_$LHN
 fi
