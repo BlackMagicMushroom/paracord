@@ -213,7 +213,7 @@ function pc_performInstall() {
     # move back to PARACORDDIR
     cd $PARACORDDIR
 
-    pc_addBashCompletion
+    # pc_addBashCompletion
 
     touch $PARACORDCORE/.installed
     date +"%Y/%m/%d %H:%I %Z" > $PARACORDCORE/.installed
