@@ -5,16 +5,16 @@ PARACORDBINDIR=`pwd`
 cd ../
 PARACORDDIR=`pwd`
 PARACORDCORE=`pwd`"/core"
-ECHO=`which echo`
+
+source $PARACORDCORE/pc_functions
+source $PARACORDCORE/.colors
+source $PARACORDCORE/.paracord_signature
 
 if [[ $1 = 'commands' ]]; then
   $ECHO -e "Usage: $0 configure|help|install|status|update|update-path|variables"
   exit 0;
 fi
 
-source $PARACORDCORE/pc_functions
-source $PARACORDCORE/.colors
-source $PARACORDCORE/.paracord_signature
 
 # configure|help|install|status|update|update-path|variables
 if [ $# -lt 1 ]; then

@@ -31,3 +31,7 @@ if [ -f ~/.bash_$LHN ]; then
         echo "Importing Host ($LHN) Specific Variables"
         source ~/.bash_$LHN
 fi
+
+if [[ -d '$HOME/.rvm/' ]]; then
+  export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+fi

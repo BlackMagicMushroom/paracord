@@ -1,5 +1,11 @@
 #!/bin/bash
-ECHO=`which echo`
+
+if [[ `uname -s` -eq 'Darwin' ]]; then
+  ECHO=echo
+else
+  ECHO=`which echo`
+fi
+
 PARACORDSKELDIR=$PARACORDDIR/skel
 PARACORDSKELCPDIR=$PARACORDDIR/skel.cp
 
