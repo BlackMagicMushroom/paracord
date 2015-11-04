@@ -1,5 +1,11 @@
 #!/bin/bash
-ECHO=`which echo`
+
+if [[ `uname -s` -eq 'Darwin' ]]; then
+  ECHO=echo
+else
+  ECHO=`which echo`
+fi
+
 PARACORDSKELDIR=$PARACORDDIR/skel
 PARACORDSKELCPDIR=$PARACORDDIR/skel.cp
 
@@ -213,8 +219,19 @@ function pc_performInstall() {
     # move back to PARACORDDIR
     cd $PARACORDDIR
 
+    # pc_addBashCompletion
+
     touch $PARACORDCORE/.installed
     date +"%Y/%m/%d %H:%I %Z" > $PARACORDCORE/.installed
+    
+}
+
+function pc_addBashCompletion() {
+    #if [[ $- == *i* ]]; then
+    #fi
+    if [[ -d /etc/bash_completion.d ]]; then
+        cp $PARACORDCORE/bash_completion.d/paracord /etc/bash_completion.d/paracord
+    fi
     
 }
 
