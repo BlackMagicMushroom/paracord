@@ -13,8 +13,12 @@
     lol        = log --graph --decorate --pretty=oneline --abbrev-commit
     lola       = log --graph --decorate --pretty=oneline --abbrev-commit --all
     ls         = ls-files
-    pl         = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
-    pla        = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all --
+    pl         = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --date=short --abbrev-commit -- # git pretty log
+    pla        = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --date=short --abbrev-commit --all -- # git pretty log all
+    plt        = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit -- # git pretty log time
+    plta       = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit --all -- # git pretty log time all
+    plr        = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit -- # git pretty log  relative time
+    plra       = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all -- # git pretty log  relative time all
     changed    = diff --name-only master..develop
     cr         = diff --no-prefix HEAD~..HEAD
     make-patch = diff --no-prefix
@@ -37,6 +41,6 @@
       changed = green
     untracked = cyan
 [core]
-	excludesfile = /home/druid/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [push]
   default = current
