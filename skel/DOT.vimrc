@@ -961,7 +961,7 @@ abbreviate saturday Saturday
      let g:pdv_cfg_License = "PHP Version 3.0 {@link http://www.php.net/license/3_0.txt}"
 
 
-    source ~/.vim/plugin/phpdoc.vim
+    "source ~/.vim/plugin/phpdoc.vim
     inoremap <C-P> <ESC>:call PhpDocSingle()<CR>i
     nnoremap <C-P> :call PhpDocSingle()<CR>
     vnoremap <C-P> :call PhpDocRange()<CR>

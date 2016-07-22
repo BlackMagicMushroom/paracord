@@ -71,11 +71,6 @@ function classpathadd()
     fi
 }
 
-
-if [ -f ~/.local_functions ]; then
-    include_function_file ~/.local_functions
-fi
-
 # ubuntu convenience function
 function doihave() 
 {
@@ -97,3 +92,11 @@ function getOutputFile()
         echo "Sorry Charlie."
     fi
 }
+
+if [ -f ~/.local_functions ]; then
+    include_function_file ~/.local_functions
+fi
+
+if [ -f ~/.`uname -s | tr A-Z a-z`_functions ]; then
+    include_function_file ~/.`uname -s | tr A-Z a-z`_functions
+fi
