@@ -26,8 +26,8 @@ elif [ $1 == "--list" ]; then
    exit 0
 fi
 
-sessionName=$HOSTNAME"-"$1
-`tmux has -t $sessionName` 
+sessionName="${HOSTNAME//.local}"-"$1"
+`tmux has -t $sessionName `
 blah=$?
 if [ $blah  -eq 0 ]; then
     read -p "Session exists. Attach? " REPLY
