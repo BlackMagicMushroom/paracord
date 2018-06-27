@@ -38,6 +38,10 @@ if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
 fi
 
+if [ -f $HOME/.git-prompt ]; then
+   source $HOME/.git-prompt 
+fi
+
 if [ -f ~/.local_env ]; then
     source ~/.local_env
 fi
