@@ -13,7 +13,7 @@ set ff=unix
     set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
   endif
 
-call pathogen#infect()
+"call pathogen#infect()
 
 " a ruler on steroids
   set ruler
@@ -328,6 +328,17 @@ call pathogen#infect()
     inoremap ,cba background:;<ESC>ha<SPACE>
     inoremap ,cbp background-position:;<ESC>ha<SPACE>
     inoremap ,cfo font:;<ESC>ha<SPACE>
+
+" Plugins will be downloaded under the specified directory.
+call plug#begin('~/.vim/plugged')
+
+" Declare the list of plugins.
+Plug 'tpope/vim-sensible'
+Plug 'scrooloose/nerdtree'
+" Plug 'junegunn/seoul256.vim'
+
+" List ends here. Plugins become visible to Vim after this call.
+call plug#end()
 
 "------------------------------------------------------------------------------
 " SEMANTAC CORRECTION
