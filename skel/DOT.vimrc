@@ -177,6 +177,13 @@ set ff=unix
 
   " Nobody likes typing about :set nu and :set nonu to toggle line numbers
     map <leader># :set nu!<CR>
+    map <leader>## :set relativenumber! <CR>
+
+    :" :augroup numbertoggle
+    " :  autocmd!
+    " :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    " :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+    " :augroup END
 
   " toggle 
     function! g:ToggleNuMode()
