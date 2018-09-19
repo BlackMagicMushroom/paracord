@@ -98,7 +98,7 @@ set ff=unix
   "set foldenable
   "set foldclose=all
   set nowrap
-  set number
+  set number relativenumber
   set ruler
   set showcmd
   set showmatch
@@ -178,6 +178,7 @@ set ff=unix
   " Nobody likes typing about :set nu and :set nonu to toggle line numbers
     map <leader># :set nu!<CR>
     map <leader>## :set relativenumber! <CR>
+    map <leader>no## :set nonumber norelativenumber <CR>
 
     :" :augroup numbertoggle
     " :  autocmd!
