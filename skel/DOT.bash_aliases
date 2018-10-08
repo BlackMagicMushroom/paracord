@@ -21,7 +21,7 @@ alias diff="/usr/bin/diff -y"				# diff preference
 alias getComposer='curl -s http://getcomposer.org/installer | php'
 alias ifconfig.me="curl ifconfig.me"
 alias zulu='date -u "+%d%b%Y-%H%M (zulu)"'
-alias now='date "+%d%b%Y-%H%M %Z (%:::z)"'
+alias now='date "+%d%b%Y-%H%M %Z (%z)"'
 if [ -f '~/bin/git-achievements' ]; then
     alias git='~/bin/git-achievements'
 fi
