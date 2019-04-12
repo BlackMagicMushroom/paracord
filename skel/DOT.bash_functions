@@ -77,7 +77,6 @@ function doihave()
     dpkg --get-selections | grep -i $1
 }
 
-
 # given a pid 
 function getOutputFile()
 {
@@ -90,6 +89,29 @@ function getOutputFile()
         echo `readlink  -f /proc/${1}/fd/1`
     else
         echo "Sorry Charlie."
+    fi
+}
+
+function isGitRepo()
+{
+    if [[ -z $(__git_ps1) ]]; then
+      echo 0
+    else
+      echo 1
+    fi
+}
+
+
+function cleanUpBranches() 
+{
+    GIT_REMOTE="origin";
+    if [[ -n ${2} ]]; then
+       GIT_REMOTE=${2} 
+    fi
+
+    if [[ 1 -eq $(isGitRepo) ]]; then
+      git branch -D ${1}
+      git branch -r -D ${GIT_REMOTE}/${1}
     fi
 }
 

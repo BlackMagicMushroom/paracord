@@ -33,5 +33,6 @@ if [ -f ~/.bash_$LHN ]; then
 fi
 
 if [[ -d '$HOME/.rvm/' ]]; then
+  source $HOME/.rvm/scripts/rvm
   export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 fi

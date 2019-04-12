@@ -1,7 +1,6 @@
 # Generate Random Password (Darwin friendly)
 function randpw()
 { 
-  echo $1
   if [[ $1 =~ '^[0-9]+$' ]]; then
     echo "First (and only) grgument must be a number"
     return 1;
