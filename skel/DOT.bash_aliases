@@ -55,3 +55,8 @@ fi
 if [ -f '~/.svn_aliases' ]; then
   . ~/.svn_aliases
 fi
+
+# OS Specific ALiases 
+if [ -f ~/.`uname -s | tr A-Z a-z`_aliases ]; then
+    .  ~/.`uname -s | tr A-Z a-z`_aliases
+fi
