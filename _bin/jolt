@@ -2,6 +2,18 @@
 # @author: DruiD628
 # @date: 22 Oct. 2020
 
+# if not on Mac Bail out
+PC_SYSTEM=`uname -s`
+if [[ $PC_SYSTEM != "Darwin" ]]; then
+  exit 1;
+fi
+
+# Vars
+HOURS=0
+MINS=0
+SECS=0
+HOW_LONG=0;
+
 while getopts ":h:m:s:" arg; do
   case $arg in
     h) HOURS=$OPTARG;;
@@ -10,19 +22,10 @@ while getopts ":h:m:s:" arg; do
   esac
 done
 
-# (( HOW_LONG=$1*3600 ))
-
-$HOW_LONG = 0;
-
 ((HOURS_IN_SEC = $HOURS*3600))
 ((MINS_IN_SEC = $MINS*60))
 
 (( HOW_LONG=$HOW_LONG + $HOURS_IN_SEC + $MINS_IN_SEC + $SECS ))
-
-PC_SYSTEM=`uname -s`
-if [[ $PC_SYSTEM != "Darwin" ]]; then
-  exit 1;
-fi
 
 echo "Providing ${HOURS}H:${MINS}m:${SECS}s (${HOW_LONG}s) worth of Jolt"
 
