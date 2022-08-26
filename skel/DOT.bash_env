@@ -14,7 +14,7 @@ shopt -s histappend
 
 # ENV Variables
 export PS1='[\[\e[44;1;37m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[42;1;37m\]\h\[\e[0m\] \[\e[31;1m\]\W\[\e[0m\]\[\e[1;36m\]$(__git_ps1 " (%s)")\[\e[0m\]]\$ '
-# export PS1='[\[\e[44;1;37m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[42;1;37m\]\h\[\e[0m\] \[\e[31;1m\]\W\[\e[0m\]\[\e[1;36m\]\[\e[0m\]]\$ '
+#export PS1='[\[\e[44;1;37m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[42;1;37m\]\h\[\e[0m\] \[\e[31;1m\]\W\[\e[0m\]\[\e[1;36m\]\[\e[0m\]]\$ '
 export HISTTIMEFORMAT='%F %T '
 export LSCOLORS="ExGxFxdxCxDxDxhbadExEx"
 export EDITOR="/usr/bin/vim"
@@ -34,9 +34,18 @@ if [ -d $HOME/bin ]; then
     pathadd $HOME/bin
 fi
 
+# turn on paracord _bin dir
+if [ -d $HOME/_bin ]; then
+    pathadd $HOME/_bin
+fi
+
 if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
 fi
+
+# bash completion for v4+
+export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"#
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
 if [ -f $HOME/.git-prompt ]; then
    source $HOME/.git-prompt 
