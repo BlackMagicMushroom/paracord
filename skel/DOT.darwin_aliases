@@ -1,2 +1,5 @@
 # Darwin (OSX) specific aliases
-alias ls='`which ls` '
+if [[ $PC_DEBUG > 1 ]]; then
+    echo "Enabling Darwin Aliases"
+fi
+

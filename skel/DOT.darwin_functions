@@ -1,3 +1,8 @@
+# Darwin (OSX) specific functions
+if [[ $PC_DEBUG > 1 ]]; then
+    echo "Enabling Darwin Functions"
+fi
+
 # Generate Random Password (Darwin friendly)
 function randpw()
 { 
@@ -13,4 +18,13 @@ function randpw()
   fi
   #< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16};echo;
   env LC_CTYPE=C tr -dc "a-zA-Z0-9-_\$\?" < /dev/urandom | head -c $LENGTH #10
+}
+
+#isDarwin
+function isDarwin() {
+  if [[ `uname -s` -eq 'Darwin' ]]; then
+    return 1
+  fi
+
+  return 0
 }

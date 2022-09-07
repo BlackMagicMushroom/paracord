@@ -10,7 +10,8 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # some more ls aliases
-alias ls='ls --color=auto --group-directories-first'
+#alias ls='ls --color=auto --group-directories-first'
+alias ls='ls --color=auto '
 alias ll='ls -lh'
 alias lal='ls -lah'
 alias duh='du -h'					# because i kept typing duh instead of du -h
@@ -22,6 +23,7 @@ alias getComposer='curl -s http://getcomposer.org/installer | php'
 alias ifconfig.me="curl ifconfig.me"
 alias zulu='date -u "+%d%b%Y-%H%M (zulu)"'
 alias now='date "+%d%b%Y-%H%M %Z (%z)"'
+
 if [ -f '~/bin/git-achievements' ]; then
     alias git='~/bin/git-achievements'
 fi
@@ -46,13 +48,8 @@ if [ -f $HOME/.lolcatz_aliases ]; then
   . ~/.lolcatz_aliases
 fi
 
-# anything specific to the local box
-if [ -f $HOME/.local_aliases ]; then
-  . ~/.local_aliases
-fi
-
-# SVN. ugh. 
-if [ -f '~/.svn_aliases' ]; then
+# SVN. ugh.
+if [[ $PC_SVN -eq 1 ]] && [[ -f '~/.svn_aliases' ]]; then
   . ~/.svn_aliases
 fi
 
@@ -60,3 +57,9 @@ fi
 if [ -f ~/.`uname -s | tr A-Z a-z`_aliases ]; then
     .  ~/.`uname -s | tr A-Z a-z`_aliases
 fi
+
+# include machine specific aliases
+if [ -f $HOME/.local_aliases ]; then
+  . ~/.local_aliases
+fi
+

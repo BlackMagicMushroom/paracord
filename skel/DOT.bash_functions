@@ -1,4 +1,4 @@
-# include_function_file 
+# include_function_file
 # Taken from ioBashExtras by Jeremy G. ( @jgintlio )
 #
 # example: include_function_file "$HOME/.bash_functions"
@@ -9,6 +9,15 @@ function include_function_file
    else
     echo "File not found: ${1}"
    fi
+}
+
+#isDarwin
+function isDarwin() {
+  if [[ `uname -s` -eq 'Darwin' ]]; then
+    return 1
+  fi
+
+  return 0
 }
 
 # -*- shell-script -*-
@@ -115,10 +124,13 @@ function cleanUpBranches()
     fi
 }
 
+# include OS Specific Functions
+if [[ -f ~/.`uname -s | tr A-Z a-z`_functions ]]; then
+    include_function_file  ~/.`uname -s | tr A-Z a-z`_functions
+fi
+
+# include machine specific functions
 if [ -f ~/.local_functions ]; then
     include_function_file ~/.local_functions
 fi
 
-if [ -f ~/.`uname -s | tr A-Z a-z`_functions ]; then
-    include_function_file ~/.`uname -s | tr A-Z a-z`_functions
-fi

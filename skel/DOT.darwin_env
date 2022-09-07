@@ -1,0 +1,4 @@
+# Darwin (OSX) specific environment
+if [[ $PC_DEBUG > 1 ]]; then
+    echo "Enabling Darwin Environment"
+fi

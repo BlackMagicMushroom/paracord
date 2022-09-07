@@ -1,6 +1,16 @@
 #!/bin/bash
 
-if [[ `uname -s` -eq 'Darwin' ]]; then
+#isDarwin
+function isDarwin() {
+  if [[ `uname -s` -eq 'Darwin' ]]; then
+    return 1
+  fi
+
+  return 0
+}
+
+# if [[ `uname -s` -eq 'Darwin' ]]; then
+if [[ isDarwin ]]; then
   ECHO=echo
 else
   ECHO=`which echo`
@@ -154,7 +164,7 @@ function pc_setupHomeBinDir() { # // get it home bender XD
     if [ -d $HOME/bin ]; then
        pc_echo "Update your${RED_BOLD} bin/ ${NC}files as needed."
     else
-       ln -s $PARACORDDIR/_bin $HOME/bin
+       ln -s $PARACORDDIR/_bin $HOME/_bin
     fi
 
 }
