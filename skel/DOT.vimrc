@@ -19,8 +19,9 @@ set ff=unix
   set ruler
   set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
 
-  :colo darkblue
+  ":colo darkblue
   if has('gui_running') 
+    :colo elflord
     " full screen
       "set fuoptions=maxvert,maxhorz
       "au GUIEnter * set fullscreen
@@ -348,5 +349,5 @@ Plug 'scrooloose/nerdtree'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
-
+source ~/.vim/bundles
 source ~/.vim/abbrev

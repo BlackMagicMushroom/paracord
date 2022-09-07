@@ -26,7 +26,9 @@ elif [ $1 == "--list" ]; then
    exit 0
 fi
 
-sessionName="${HOSTNAME//.local}"-"$1"
+# Saving for possible use later
+# sessionName="${HOSTNAME//.local}"-"$1"
+sessionName="$1"
 `tmux has -t $sessionName `
 blah=$?
 if [ $blah  -eq 0 ]; then
@@ -42,7 +44,7 @@ reqSession=$1
 if [ -e $HOME/.tmuxalicious/$reqSession.tmux ]; then
     tmux new-session -d -s $sessionName
     tmux rename-window -t $sessionName:0 'General' 
-    tmux new-window -t $sessionName:1 -n 'HOME' 
+#    tmux new-window -t $sessionName:1 -n 'HOME' 
     sh $HOME/.tmuxalicious/$reqSession.tmux
 else
     echo "Please try a session environment which actually exists.";
@@ -60,9 +62,9 @@ exit 0
 ## ------------------------------------------
 ##        #!/bin/bash
 ##        cd  /path/to/project
-##        tmux new-window -t $sessionName:5 -n 'projectName'  
+##        tmux new-window -t $sessionName:3 -n 'projectName'  
 ##        cd  /path/to/project/logs
-##        tmux new-window -t $sessionName:5 -n 'projectName-logs'  
+##        tmux new-window -t $sessionName:4 -n 'projectName-logs'  
 ## ------------------------------------------
 ## 
 ################################################################

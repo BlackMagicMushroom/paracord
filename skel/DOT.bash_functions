@@ -118,6 +118,12 @@ function cleanUpBranches()
        GIT_REMOTE=${2} 
     fi
 
+    if [[ "master" == ${1} || "develop" == ${1}  ]]; then
+      echo "Newp. Not touching ${1} sorry. You're on your own there";
+      return 1
+    fi
+
+
     if [[ 1 -eq $(isGitRepo) ]]; then
       git branch -D ${1}
       git branch -r -D ${GIT_REMOTE}/${1}
