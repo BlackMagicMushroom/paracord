@@ -2,3 +2,6 @@
 if [[ $PC_DEBUG > 1 ]]; then
     echo "Enabling Darwin Environment"
 fi
+
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"

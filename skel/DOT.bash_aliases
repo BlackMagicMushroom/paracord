@@ -3,6 +3,8 @@
 # go here
 #
 # System specific ones go in .local_aliases
+PARACORD=$HOME/paracord
+PARACORDDOTDIR=$HOME/.paracord
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -44,8 +46,8 @@ if [ -f '/usr/bin/axel' ]; then
 fi
 
 # for the lulz
-if [ -f $HOME/.lolcatz_aliases ]; then
-  . ~/.lolcatz_aliases
+if [ -f $PARACORDDOTDIR/.lolcatz_aliases ]; then
+  . $PARACORDDOTDIR/.lolcatz_aliases
 fi
 
 # SVN. ugh.
@@ -54,12 +56,12 @@ if [[ $PC_SVN -eq 1 ]] && [[ -f '~/.svn_aliases' ]]; then
 fi
 
 # OS Specific ALiases 
-if [ -f ~/.`uname -s | tr A-Z a-z`_aliases ]; then
-    .  ~/.`uname -s | tr A-Z a-z`_aliases
+if [ -f $PARACORDDOTDIR/.`uname -s | tr A-Z a-z`_aliases ]; then
+    .  $PARACORDDOTDIR/.`uname -s | tr A-Z a-z`_aliases
 fi
 
 # include machine specific aliases
-if [ -f $HOME/.local_aliases ]; then
-  . ~/.local_aliases
+if [ -f $PARACORDDOTDIR/.local_aliases ]; then
+  . $PARACORDDOTDIR/.local_aliases
 fi
 

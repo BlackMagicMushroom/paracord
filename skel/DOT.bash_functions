@@ -2,6 +2,9 @@
 # Taken from ioBashExtras by Jeremy G. ( @jgintlio )
 #
 # example: include_function_file "$HOME/.bash_functions"
+PARACORD=$HOME/paracord
+PARACORDDOTDIR=$HOME/.paracord
+
 function include_function_file 
 {
    if [ -f "${1}" ];then
@@ -131,12 +134,12 @@ function cleanUpBranches()
 }
 
 # include OS Specific Functions
-if [[ -f ~/.`uname -s | tr A-Z a-z`_functions ]]; then
-    include_function_file  ~/.`uname -s | tr A-Z a-z`_functions
+if [[ -f $PARACORDDOTDIR/.`uname -s | tr A-Z a-z`_functions ]]; then
+    include_function_file  $PARACORDDOTDIR/.`uname -s | tr A-Z a-z`_functions
 fi
 
 # include machine specific functions
-if [ -f ~/.local_functions ]; then
-    include_function_file ~/.local_functions
+if [ -f $PARACORDDOTDIR/.local_functions ]; then
+    include_function_file $PARACORDDOTDIR/.local_functions
 fi
 

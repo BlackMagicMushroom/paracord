@@ -1,6 +1,6 @@
 [user]
-    name  = Micah Breedlove
-    email = druid628@gmail.com
+    name  = PC_NAME_OF_USER
+    email = PC_EMAIL_OF_USER
 [alias]
     st         = status
     ci         = commit
