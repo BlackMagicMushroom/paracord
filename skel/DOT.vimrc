@@ -13,7 +13,7 @@ set ff=unix
     set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
   endif
 
-"call pathogen#infect()
+call pathogen#infect()
 
 " a ruler on steroids
   set ruler
@@ -349,5 +349,5 @@ Plug 'scrooloose/nerdtree'
 
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
-source ~/.vim/bundles
+" # source ~/.vim/bundles
 source ~/.vim/abbrev

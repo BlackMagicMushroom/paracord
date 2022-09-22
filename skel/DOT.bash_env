@@ -77,8 +77,13 @@ fi
 export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"#
 [[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
 
+# Git add-ons
 if [ -f $HOME/.git-prompt ]; then
    source $HOME/.git-prompt 
+fi
+
+if [ -f $HOME/.git-completion.bash ]; then
+  source $HOME/.git-completion.bash
 fi
 
 # OS Specific Environment
