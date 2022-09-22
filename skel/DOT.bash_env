@@ -1,55 +1,104 @@
-#
-##############
-## CLI options
-##############
-# turn on cli vi
-set -o vi
+##################
+## CLI options  ##
+##################
 
-# shell options
+#################
+### shell options
+#################
 shopt -s checkwinsize
 shopt -s cdable_vars
 # append to the history file, don't overwrite it
 shopt -s histappend
+# turn on cli vi
+set -o vi
 
 
-# ENV Variables
+#################
+### Environment Variables
+#################
+export PARACORD=$HOME/paracord
+export PARACORDDOTDIR=$HOME/.paracord
 export PS1='[\[\e[44;1;37m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[42;1;37m\]\h\[\e[0m\] \[\e[31;1m\]\W\[\e[0m\]\[\e[1;36m\]$(__git_ps1 " (%s)")\[\e[0m\]]\$ '
-# export PS1='[\[\e[44;1;37m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[42;1;37m\]\h\[\e[0m\] \[\e[31;1m\]\W\[\e[0m\]\[\e[1;36m\]\[\e[0m\]]\$ '
+# export PS1='[\[\e[44;1;37m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[42;1;37m\]\h\[\e[0m\] \[\e[31;1m\]\W\[\e[0m\]\[\e[1;36m\]\[\e[0m\]]\$ ' ## kept for backup
 export HISTTIMEFORMAT='%F %T '
 export LSCOLORS="ExGxFxdxCxDxDxhbadExEx"
-export EDITOR="/usr/bin/vim"
-export PAGER='/usr/bin/less'
+export EDITOR=`which vim`
+export PAGER=`which less`
+# Turn off SVN
+export PC_SVN=0
 
-if [[ -f ~/.colors ]]; then
-    source ~/.colors
+##########
+# Paracord DEBUG Level
+#   0 = OFF
+#   1 = ERROR
+#   2 = INFO
+##########
+export PC_DEBUG=0
+
+if [[ $PC_DEBUG > 1 ]]; then
+    echo "Enabling Paracord Debug INFO Level"
+fi
+
+
+if [[ -f $PARACORDDOTDIR/.colors ]]; then
+    source $PARACORDDOTDIR/.colors
 fi
 
 # adds bash functions like lowercase, mkcd and patthadd
-if [[ -z "`type -t pathadd`" && -f ~/.bash_functions ]]; then
-    source ~/.bash_functions
+if [ -f ~/.bash_functions ] ; then
+        source ~/.bash_functions
 fi
 
-# turn on home bin dir
+# adds Aliases
+if [ -f ~/.bash_aliases ] ; then
+        source ~/.bash_aliases
+fi
+
+
+#################
+### bin Directories
+#################
+#### Standard bin dir
 if [ -d $HOME/bin ]; then
     pathadd $HOME/bin
+fi
+#### Paracord bin dir
+if [ -d ~/_bin ]; then
+    pathadd $HOME/_bin
+fi
+
+# turn on paracord _bin dir
+if [ -d $HOME/_bin ]; then
+    pathadd $HOME/_bin
 fi
 
 if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
 fi
 
-if [ -f ~/.local_env ]; then
-    source ~/.local_env
+# bash completion for v4+
+export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"#
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
+# Git add-ons
+if [ -f $HOME/.git-prompt ]; then
+   source $HOME/.git-prompt 
 fi
 
-# PHPBrew and RVM moved to .local_env
+if [ -f $HOME/.git-completion.bash ]; then
+  source $HOME/.git-completion.bash
+fi
 
-###########################
-#   Uncomment as needed   #
-###########################
+# OS Specific Environment
+if [ -f $PARACORDDOTDIR/.`uname -s | tr A-Z a-z`_env ]; then
+     source  $PARACORDDOTDIR/.`uname -s | tr A-Z a-z`_env
+fi
 
-# old ps1's
-# export PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}[\u@\h \W]\$ '
-# export PS1='[\[\e[34;1m\]\u\[\e[0m\]@\[\e[31;1m\]Eat\[\e[0m\]\e[1;33mAt\e[0m\e[1;32mJoes\[\e[0m\] \[\e[37;1m\]\W\[\e[0m\]]\$ '
-# export PS1='[\[\e[34;1m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[1;31m\]Eat\[\e[0m\]\[\e[1;33m\]At\[\e[0m\]\[\e[1;32m\]Joes\[\e[0m\] \[\e[37;1m\]\W\[\e[0m\]]\$ ' # Standard Colorized '[\u@\h \W]\$ '
-# export PS1='[\[\e[34;1m\]\u\[\e[0m\]\[\e[1;37m\]@\[\e[0m\]\[\e[1;32m\]\h\[\e[0m\] \[\e[37;1m\]\W\[\e[0m\]\[\e[1;36m\]$(__git_ps1 " (%s)")\[\e[0m\]]\$ ' # standard with git branch instance '[\u@\h \W (git-branch)]\$ '
+if [ -f $PARACORDDOTDIR/.local_env ]; then
+    if [[ $PC_DEBUG > 1 ]]; then
+        echo "Enabling local environment"
+    fi
+    source $PARACORDDOTDIR/.local_env
+fi
+
+# PHPBrew and RVM moved to .darwin_env

@@ -1,0 +1,6 @@
+# .ackrc
+--sort-files
+--color
+--type-set=twig=.twig
+--ignore-case
+#--pager=less -r

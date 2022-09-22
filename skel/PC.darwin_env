@@ -1,0 +1,13 @@
+# Darwin (OSX) specific environment
+if [[ $PC_DEBUG > 1 ]]; then
+    echo "Enabling Darwin Environment"
+fi
+
+# RVM
+if [[ -d '$HOME/.rvm/' ]]; then
+  source $HOME/.rvm/scripts/rvm
+  export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+fi
+
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"

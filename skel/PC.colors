@@ -1,0 +1,7 @@
+# system specific colors
+PC_SYSTEM=`uname -s`
+PC_COLOR_FILE="${PARACORDCORE}/.colors-${PC_SYSTEM}"
+
+if [[ -s "${PC_COLOR_FILE}" ]]; then
+ source ${PC_COLOR_FILE}
+fi

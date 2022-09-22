@@ -1,0 +1,5 @@
+# Darwin (OSX) specific aliases
+if [[ $PC_DEBUG > 1 ]]; then
+    echo "Enabling Darwin Aliases"
+fi
+

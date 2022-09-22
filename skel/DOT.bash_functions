@@ -1,5 +1,28 @@
-# Included in Paracord compliments of Micah Breedlove ( @druid628 )
+# include_function_file
+# Taken from ioBashExtras by Jeremy G. ( @jgintlio )
 #
+# example: include_function_file "$HOME/.bash_functions"
+PARACORD=$HOME/paracord
+PARACORDDOTDIR=$HOME/.paracord
+
+function include_function_file 
+{
+   if [ -f "${1}" ];then
+     source "${1}" 
+   else
+    echo "File not found: ${1}"
+   fi
+}
+
+#isDarwin
+function isDarwin() {
+  if [[ `uname -s` -eq 'Darwin' ]]; then
+    return 1
+  fi
+
+  return 0
+}
+
 # -*- shell-script -*-
 # mkcd: a script which declares a function, mkcd.
 # Time-stamp: <2002-09-03 13:27:08 EDT root mkcd>
@@ -60,16 +83,63 @@ function classpathadd()
     fi
 }
 
-# include_function_file 
-# Taken from ioBashExtras by Jeremy G. ( @jgintlio )
-#
-# example: include_function_file "$HOME/.bash_functions"
-function include_function_file 
+# ubuntu convenience function
+function doihave() 
 {
-   if [ -f "${1}" ];then
-     source "${1}" 
-   else
-    echo "File not found: ${1}"
-   fi
+    dpkg --get-selections | grep -i $1
 }
+
+# given a pid 
+function getOutputFile()
+{
+    if [ $# -ne 1 ]; then
+        echo "Not enough stuff"
+        return
+    fi
+
+    if [ -h "/proc/${1}/fd/1" ]; then
+        echo `readlink  -f /proc/${1}/fd/1`
+    else
+        echo "Sorry Charlie."
+    fi
+}
+
+function isGitRepo()
+{
+    if [[ -z $(__git_ps1) ]]; then
+      echo 0
+    else
+      echo 1
+    fi
+}
+
+
+function cleanUpBranches() 
+{
+    GIT_REMOTE="origin";
+    if [[ -n ${2} ]]; then
+       GIT_REMOTE=${2} 
+    fi
+
+    if [[ "master" == ${1} || "develop" == ${1}  ]]; then
+      echo "Newp. Not touching ${1} sorry. You're on your own there";
+      return 1
+    fi
+
+
+    if [[ 1 -eq $(isGitRepo) ]]; then
+      git branch -D ${1}
+      git branch -r -D ${GIT_REMOTE}/${1}
+    fi
+}
+
+# include OS Specific Functions
+if [[ -f $PARACORDDOTDIR/.`uname -s | tr A-Z a-z`_functions ]]; then
+    include_function_file  $PARACORDDOTDIR/.`uname -s | tr A-Z a-z`_functions
+fi
+
+# include machine specific functions
+if [ -f $PARACORDDOTDIR/.local_functions ]; then
+    include_function_file $PARACORDDOTDIR/.local_functions
+fi
 

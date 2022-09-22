@@ -1,0 +1,15 @@
+# paracord completion
+
+have paracord && {
+_paracord() {
+    local PCWORDS cur
+
+    COMPREPLY=()
+    _get_comp_words_by_ref cur
+
+    PCWORDS=$(paracord commands 2>&1 | awk 'NR<2 { print $3; exit }' | tr "|" " ")
+
+    COMPREPLY=( $( compgen -W "$PCWORDS" -- "$cur" ) )
+}
+complete -F _paracord paracord
+}

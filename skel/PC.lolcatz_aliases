@@ -11,4 +11,5 @@ alias i-can-haz='sudo apt-get install'
 alias i-can-haz-updates='sudo apt-get upgrade'
 alias does-i-haz='dpkg --get-selections | grep ' 
 alias can-i-haz='apt-cache search'
+alias what-doez-i-haz='dpkg --get-selections'
 

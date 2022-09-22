@@ -1,0 +1,47 @@
+#!/bin/bash
+# @author: DruiD628
+# @date: 22 Oct. 2020
+
+# if not on Mac Bail out
+PC_SYSTEM=`uname -s`
+if [[ $PC_SYSTEM != "Darwin" ]]; then
+  exit 1;
+fi
+
+# Vars
+TIME=0
+HOURS=0
+MINS=0
+SECS=0
+HOW_LONG=0
+CURTIME=$(date +"%H:%M")
+DIFF_TIME=0
+
+while getopts ":h:m:s:t:" arg; do
+  case $arg in
+    h) HOURS=$OPTARG;;
+    m) MINS=$OPTARG;;
+    s) SECS=$OPTARG;;
+    t) TIME=$OPTARG;;
+  esac
+done
+
+# Not working currently
+if [[ $TIME -ne '0' ]]; then
+  DIFF_TIME=(TIME - CURTIME)
+  HOURS=$(awk -F":" '/=[0-9]$/{print $1}' $DIFF_TIME)
+  MINS=$(awk -F":" '/=[0-9]$/{print $2}' $DIFF_TIME)
+  echo $DIFF_TIME
+  echo $HOURS
+  echo $MINS
+fi
+
+
+((HOURS_IN_SEC = $HOURS*3600))
+((MINS_IN_SEC = $MINS*60))
+
+(( HOW_LONG=$HOW_LONG + $HOURS_IN_SEC + $MINS_IN_SEC + $SECS ))
+
+echo "Providing ${HOURS}H:${MINS}m:${SECS}s (${HOW_LONG}s) worth of Jolt"
+
+caffeinate -u -t $HOW_LONG 
