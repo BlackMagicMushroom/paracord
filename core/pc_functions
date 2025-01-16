@@ -33,6 +33,9 @@ function pc_displayDirs() {
         $ECHO -e "PARACORDCORE:        ${PARACORDCORE}"
         $ECHO -e "PARACORDSKELDIR:     ${PARACORDSKELDIR}"
         $ECHO -e "PARACORDSKELCPDIR:   ${PARACORDSKELCPDIR}"
+        $ECHO -e "PARACORDSKELCPDIR:   ${PARACORDSKELCPDIR}"
+        $ECHO -e "PARACORDDOTDIR:      ${PARACORDDOTDIR}"
+
     fi
 
     echo ${!1}
@@ -73,6 +76,7 @@ function pc_help() {
   $ECHO "   configure       Configure Paracord repo"
 #  $ECHO "   configure-git   Configure .gitconfig with your info"
   $ECHO "   help            Display this dialog"
+  $ECHO "   edit {file}     Edit an environment variable file from $PARACORDDOTDIR "
   $ECHO "   install         Performs an install of dot files and environment configuration"
   $ECHO "   status          Returns the (git) status of your Paracord environment"
   $ECHO "   update          Performs an  update of dot files and environment configuration"
@@ -158,7 +162,7 @@ function pc_installSkelFiles() {
     ## For linking/copying skel files to ~/.paracord/
     for f in $(ls -d PC.*)
     do
-      NEWFILENAME=`echo $f | sed 's/DOT//'`
+      NEWFILENAME=`echo $f | sed 's/PC\.//'`
       if [ -e $PARACORDDOTDIR/$NEWFILENAME ]; then
          mv $PARACORDDOTDIR/$NEWFILENAME $PARACORDDOTDIR/$NEWFILENAME.paracord.bak
       fi
@@ -288,8 +292,8 @@ function pc_addParacordToPath() {
       #if [[ "`echo $PC_REPLY | tr [:upper:] [:lower:]`" = "y" ]]; then
           pc_echo "Updating bash PATH"
           $ECHO -e "" >> $PARACORDDOTDIR/.local_env
-          $ECHO -e "# Added by Paracord " >> $PARACORDDOTDIR/.local_env
-          $ECHO -e "PATH=\$PATH:${PARACORDBINDIR}" >> $PARACORDDOTDIR/.local_env
+          $ECHO -e "# Added by Paracord " >> $PARACORDDOTDIR/local_env
+          $ECHO -e "PATH=\$PATH:${PARACORDBINDIR}" >> $PARACORDDOTDIR/local_env
           pc_echo "type . ~/.bashrc for PATH changes to take effect"
       #fi
     fi
@@ -320,4 +324,23 @@ function pc_updateGitConfig() {
 function pc_gitStatus() {
     cd $PARACORDDIR
     git status
+}
+
+
+function pc_editFile() {
+  if [ $EDITOR = "" ]; then
+    export EDITOR=`which vim`
+  fi
+  filename=${1}
+  if [ "$#" -eq 2 ]; then
+    filename="${1}_${2}"
+  fi
+
+  if [ -f $HOME/.paracord/${filename} ]; then
+    $EDITOR $HOME/.paracord/${filename}
+    source $HOME/.paracord/${filename}
+  else
+    echo "No such file as $1"
+  fi
+
 }

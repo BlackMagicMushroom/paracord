@@ -1,10 +1,8 @@
 #!/bin/bash
 
-cd `dirname $0`
-PARACORDBINDIR=`pwd`
-cd ../
-PARACORDDIR=`pwd`
-PARACORDCORE=`pwd`"/core"
+PARACORDDIR="${HOME}/paracord"
+PARACORDCORE="${PARACORDDIR}/core"
+PARACORDBINDIR="${PARACORDDIR}/bin"
 
 source $PARACORDCORE/pc_functions
 
@@ -58,6 +56,13 @@ case $1 in
     ;;
   "status")
     pc_gitStatus
+    ;;
+  "edit")
+    if [ "$#" -eq 3 ]; then
+      pc_editFile $2 $3
+    else
+      pc_editFile $2
+    fi
     ;;
   *)
     $ECHO -e "${RED}ERROR:${NC}"
